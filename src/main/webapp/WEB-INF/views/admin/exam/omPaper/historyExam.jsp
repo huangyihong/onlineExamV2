@@ -29,6 +29,12 @@
 	padding-left:5px
 }
 </style>
+<style>
+.layadmin-font-em {font-size: 18px;}
+.layui-serachlist-test h4 {font-size:30px; margin-top:30px;  font-weight:bold;}
+.questionName {font-size:18px; font-weight:bold; margin-top:30px;}
+.layui-form-item p input {display: inline-block; text-align: left;}
+</style>
 
 <div class="page-container">
 <form class="layui-form layui-form-pane" action="" id="form">
@@ -38,7 +44,7 @@
 <input type="hidden" name="paperId" id="paperId" value="${bean.paperId }"/>
 <input type="hidden" name="submitId" id="submitId" value="${examSubmit.submitId }"/>
 <div class="layui-card-header" style="text-align: center;">
-         <p style="font-size: 18px;">
+         <p style="font-size: 30px;">
            <strong>${bean.paperName }</strong> 
          </p>
          <c:if test="${type=='monitorExam' }">

@@ -29,3 +29,12 @@ String contextPath = request.getScheme()+"://"+request.getServerName()+":"+reque
 	var isIE = !!window.ActiveXObject || "ActiveXObject" in window
 </script>
 <title>在线考试系统</title>
+<meta name="viewport" content="width=device-width, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
+<script>
+//兼容ANDROID
+var viewport = document.querySelector("meta[name=viewport]");
+var winWidths=$(window).width();
+var densityDpi=640/winWidths;
+densityDpi= densityDpi>1?300*640*densityDpi/640:densityDpi;
+viewport.setAttribute('content', 'width=640, target-densityDpi='+densityDpi+', initial-scale=0.5, maximum-scale=0.5');
+</script>

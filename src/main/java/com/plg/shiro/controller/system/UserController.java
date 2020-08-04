@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +37,8 @@ import com.plg.shiro.entity.OmRole;
 import com.plg.shiro.entity.OmUploadImg;
 import com.plg.shiro.entity.OmUser;
 import com.plg.shiro.entity.OmUserGroup;
+import com.plg.shiro.entity.Vo.OmExamSubmitExportVo;
+import com.plg.shiro.entity.Vo.OmExamSubmitVo;
 import com.plg.shiro.service.IRoleService;
 import com.plg.shiro.service.IUserGroupService;
 import com.plg.shiro.service.IUserRoleService;
@@ -47,6 +51,13 @@ import com.plg.shiro.util.Md5;
 import com.plg.shiro.util.UUIDUtil;
 import com.plg.shiro.util.dwz.AjaxObject;
 import com.plg.shiro.util.dwz.LayuiPage;
+
+import jxl.Workbook;
+import jxl.write.Alignment;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 /**
  * 用户模块
@@ -442,6 +453,37 @@ public class UserController {
 		}
 		request.setAttribute("bean", bean);
 	  	return USER_PATH+"print";
+	}
+	
+	@RequestMapping("/exportUser")
+	@SuppressWarnings("deprecation")
+	@ResponseBody
+	public void exportGrade(HttpServletRequest request,HttpServletResponse response)throws Exception {
+		String file = "用户信息.xls";
+		response.reset();
+        response.setContentType("application/octet-stream; charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment; filename="+ URLEncoder.encode(file, "UTF-8") );
+		String error = null;
+		String selectSql = null; 
+		try {
+			List<OmUser> list = service.findList(request);
+			WritableWorkbook wwb = Workbook.createWorkbook(response.getOutputStream());
+			if(list==null||list.size()==0){
+				WritableSheet sheet = wwb.createSheet("暂无符合条件记录",0);
+				WritableCellFormat wc = new WritableCellFormat();
+			    wc.setAlignment(Alignment.CENTRE); // 设置居中
+			    sheet.addCell(new Label(0, 0, "暂无符合条件记录",wc));
+			    wwb.write();
+				wwb.close();
+				return;
+			}
+			service.exportUser(response, list); 
+		} catch (Exception e) {
+			error = e.getMessage();
+			throw e;
+		} finally {
+
+		}
 	}
 
 }

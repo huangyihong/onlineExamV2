@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,4 +44,8 @@ public interface IUserService {
 	AjaxObject readExcel(HttpServletRequest request, MultipartFile file) throws Exception ;
 
 	AjaxObject importUserImg(File tempFile,HttpServletRequest request) throws Exception ;
+	
+	List<OmUser> findList(HttpServletRequest request);
+
+	void exportUser(HttpServletResponse response, List<OmUser> list) throws Exception;
 }

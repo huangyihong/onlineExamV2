@@ -10,8 +10,8 @@ var createUrl = baseUrl +'/create';
 var delUrl = baseUrl +'/del';
 var assignRoleUrl = baseUrl +'/assignRole';
 var importUserUrl = baseUrl +'/importUser';
-
 var importUserImgUrl = baseUrl +'/importUserImg';
+var exportUserUrl = baseUrl +'/exportUser';
 
 $(function () {
 	//初始列表
@@ -146,6 +146,14 @@ function importUserImg(){
 	commonCreateView('用户图片导入',importUserImgUrl,1,'800','500',0);
 }
 
+function exportUser(){
+	var url = exportUserUrl+"?1=1";
+	var params = searchParams;
+	for(var key in params){
+        url +='&'+key+'='+params[key];
+    }
+	window.open(url);
+}
 
 
 

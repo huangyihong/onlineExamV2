@@ -81,6 +81,9 @@
                 <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="importUserImg()">
                     <i class="iconfont">&#xe64d;</i> 图片导入
                 </button>
+                <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="exportUser()">
+                    <i class="iconfont">&#xe651;</i> 导出
+                </button>
             </div>
         </div>
         <!--操作 end-->

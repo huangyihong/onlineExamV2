@@ -1,3 +1,4 @@
+var searchParams = {};
 //通用表格
 function commonInitGrid(listUrl,cols,keyFiled,limit){
 	var tableHeight = $(window).height() - $('#conditionDiv').outerHeight(true)-20;
@@ -129,6 +130,7 @@ function getParams(){
 		var value = $.trim(this.value);
 		params[this.name] = value;
 	});
+	searchParams = params;
 	return params;
 }
 

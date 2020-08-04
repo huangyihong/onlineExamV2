@@ -78,7 +78,7 @@ layui.use('upload', function(){
     	}
 	    ,url: WEBROOT + '/admin/system/omUser/import' //上传接口
 	    ,accept: 'file' //普通文件
-	    ,exts: 'xls' //允许上传的文件后缀
+	    ,exts: 'xls|xlsx' //允许上传的文件后缀
 	    ,size: 10240 //最大10MB
     	,before: function(obj){ 
     	    layer.load();

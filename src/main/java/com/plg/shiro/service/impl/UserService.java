@@ -17,6 +17,7 @@ import java.util.zip.ZipFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -37,7 +38,9 @@ import com.plg.shiro.service.IUserGroupService;
 import com.plg.shiro.service.IUserRoleService;
 import com.plg.shiro.service.IUserService;
 import com.plg.shiro.util.DateUtil;
+import com.plg.shiro.util.ExcelTool;
 import com.plg.shiro.util.ExcelUtils;
+import com.plg.shiro.util.ExcelXUtils;
 import com.plg.shiro.util.Md5;
 import com.plg.shiro.util.UUIDUtil;
 import com.plg.shiro.util.dwz.AjaxObject;
@@ -147,6 +150,15 @@ public class UserService implements IUserService {
 
 	@Override
 	public List<OmUser> findPageList(HttpServletRequest request, LayuiPage page) {
+		OmUserExample example = commonQuery(request);
+		example.setLimitPageSize(page.getLimit());
+		example.setLimitStart(page.limitStart());
+		page.setTotalCount(omUserMapper.countByExample(example));
+		example.setOrderByClause("USER_NAME");
+		return omUserMapper.selectByExample(example);
+	}
+
+	private OmUserExample commonQuery(HttpServletRequest request) {
 		OmUserExample example = new OmUserExample();
 		OmUserExample.Criteria criteria = example.createCriteria();
 		String userName = request.getParameter("userName");
@@ -173,11 +185,7 @@ public class UserService implements IUserService {
 		if(StringUtils.isNoneBlank(groupName)){
 			criteria.andGroupNameLike("%"+groupName+"%");
 		}
-		example.setLimitPageSize(page.getLimit());
-		example.setLimitStart(page.limitStart());
-		page.setTotalCount(omUserMapper.countByExample(example));
-		example.setOrderByClause("USER_NAME");
-		return omUserMapper.selectByExample(example);
+		return example;
 	}
 
 	@Override
@@ -199,7 +207,13 @@ public class UserService implements IUserService {
 	@Override
 	public AjaxObject readExcel(HttpServletRequest request, MultipartFile file) throws Exception {
 		String[] mappingFields = {"userId","realName","idType","userName","sex","phone","unit","groupName"};
-		List<OmUser> list = ExcelUtils.readSheet(OmUser.class, mappingFields, 0, 1, file.getInputStream());
+		List<OmUser> list = new ArrayList<OmUser>();
+		String name = file.getOriginalFilename();
+		if (name.endsWith(ExcelTool.POINT+ExcelTool.OFFICE_EXCEL_2010_POSTFIX)) {
+			list = ExcelXUtils.readSheet(OmUser.class, mappingFields, 0, 1, file.getInputStream());
+		}else {
+			list = ExcelUtils.readSheet(OmUser.class, mappingFields, 0, 1, file.getInputStream());
+		}
 		if(list.size()==0){
 			return AjaxObject.newError("上传文件内容为空");
 		}
@@ -214,30 +228,32 @@ public class UserService implements IUserService {
 			boolean flag = true;
 			OmUser bean=list.get(i);
 			if(StringUtils.isBlank(bean.getRealName())){
-				message +="第"+(i+2)+"行数据姓名为空\n";
+				message +="第"+(i+2)+"行数据姓名为空 ";
 				flag = false;
 			}
 			if(StringUtils.isBlank(bean.getIdType())){
-				message +="第"+(i+2)+"行数据证件类型为空\n";
+				message +="第"+(i+2)+"行数据证件类型为空 ";
 				flag = false;
 			}
 			if(StringUtils.isBlank(bean.getUserName())){
-				message +="第"+(i+2)+"行数据用户名(证件号码)为空\n";
+				message +="第"+(i+2)+"行数据用户名(证件号码)为空 ";
 				flag = false;
 			}
 			if(StringUtils.isBlank(bean.getGroupName())){
-				message +="第"+(i+2)+"行数据考试类别（用户分组）为空\n";
+				message +="第"+(i+2)+"行数据考试类别（用户分组）为空 ";
 				flag = false;
 			}
 			if(!flag) {
+				message +="<br>";
 		    	continue;
 		    }
 			OmUser oldUser = this.selectByUserName(bean.getUserName());
 			if(oldUser!=null){
-				message +="第"+(i+2)+"行数据["+bean.getUserName()+"]用户名(证件号码)已存在于库中\n";
+				message +="第"+(i+2)+"行数据["+bean.getUserName()+"]用户名(证件号码)已存在于库中 ";
 				flag = false;
 			}
 			if(!flag) {
+				message +="<br>";
 		    	continue;
 		    }
 			addList.add(bean);
@@ -319,12 +335,41 @@ public class UserService implements IUserService {
 		return idTypeMap;
 	}
 	
+	private Map<String, String> idTypeValueMap() {
+		Map<String,String> idTypeMap = new HashMap<String,String>();
+		idTypeMap.put("1","身份证");
+		idTypeMap.put("2","港澳居民居住证");
+		idTypeMap.put("3","港澳居民来往内地通行证");
+		idTypeMap.put("4","台湾居民居住证");
+		idTypeMap.put("5","台湾居民来往大陆通行证");
+		idTypeMap.put("6","护照");
+		idTypeMap.put("9","其他");
+		return idTypeMap;
+	}
+	
 	private Map<String, String> sexMap() {
 		Map<String,String> sexMap = new HashMap<String,String>();
 		sexMap.put("男", "1");
 		sexMap.put("女", "2");
 		sexMap.put("未知", "9");
 		return sexMap;
+	}
+	
+	private Map<String, String> sexValueMap() {
+		Map<String,String> sexMap = new HashMap<String,String>();
+		sexMap.put("1","男");
+		sexMap.put("2","女");
+		sexMap.put("9","未知");
+		return sexMap;
+	}
+	
+	private Map<String, String> groupNameMap() {
+		Map<String,String> groupNameMap = new HashMap<String,String>();
+		List<OmUserGroup> list = groupService.selectAll();
+		for(OmUserGroup bean:list) {
+			groupNameMap.put(bean.getGroupId(), bean.getGroupName());
+		}
+		return groupNameMap;
 	}
 
 	@Override
@@ -403,5 +448,26 @@ public class UserService implements IUserService {
 			message += "导入成功，共导入"+userImgList.size()+"张图片。";
 			return AjaxObject.newOk(message);
 		}
+	}
+
+	@Override
+	public List<OmUser> findList(HttpServletRequest request) {
+		OmUserExample example = commonQuery(request);
+		example.setOrderByClause("USER_NAME");
+		return omUserMapper.selectByExample(example);
+	}
+
+	@Override
+	public void exportUser(HttpServletResponse response, List<OmUser> list) throws Exception {
+		String[] titles= new String[]{"序号","姓名","证件类型","证件号码","性别","手机号码","单位名称","考试类别"};
+		String[] mappingFields = {"userId","realName","idType","userName","sex","phone","unit","groupName"};
+		int i=1;
+		for(OmUser bean:list) {
+			bean.setGroupName(this.groupNameMap().get(bean.getGroupId()));
+			bean.setSex(this.sexValueMap().get(bean.getSex()));
+			bean.setIdType(this.idTypeValueMap().get(bean.getIdType()));
+			bean.setUserId((i++)+"");
+		}
+		ExcelUtils.writeOneSheet(list, titles, mappingFields, "数据",response.getOutputStream());
 	}
 }
