@@ -348,7 +348,7 @@
 </div>
 </form>
 </div>
-<script type="text/javascript" src="${contextPath }/static/js/common/commonCreate.js"></script>
-<script type="text/javascript" src="${contextPath }/static/js/admin/exam/omPaper/markExam.js"></script>
+<script type="text/javascript" src="${contextPath }/static/js/common/commonCreate.js?v=<%=Math.random()%>"></script>
+<script type="text/javascript" src="${contextPath }/static/js/admin/exam/omPaper/markExam.js?v=<%=Math.random()%>"></script>
 <%@ include file="/WEB-INF/views/admin/exam/omPaper/showImg.inc.jsp"%>
 

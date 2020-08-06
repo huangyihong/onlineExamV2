@@ -28,6 +28,10 @@ public interface IPaperService {
 
 	void updateByPrimaryKeySelective(OmPaper bean, String questionIds);
 
+	void deleteOmPaperQuestionByPaperId(String paperId);
+	
+	void deleteOmPaperQuestionByPaperId(String paperId,String userId);
+	
 	int insertAuto(OmPaper bean);
 
 	void updateAuto(OmPaper bean);
@@ -41,5 +45,6 @@ public interface IPaperService {
 	void updateNewAuto(OmPaper bean, List<OmPaperDetail> detailDTOList);
 
 	List<OmQuestion> insertPaperQuestionAuto(String paperId, String answerUserId);
+	
 	
 }

@@ -38,3 +38,19 @@ var densityDpi=640/winWidths;
 densityDpi= densityDpi>1?300*640*densityDpi/640:densityDpi;
 viewport.setAttribute('content', 'width=640, target-densityDpi='+densityDpi+', initial-scale=0.5, maximum-scale=0.5');
 </script>
+<script type="text/javascript">
+function IsPC() {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = ["Android", "iPhone",
+                "SymbianOS", "Windows Phone",
+                "iPad", "iPod"];
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+        }
+    }
+    return flag;
+}
+</script>

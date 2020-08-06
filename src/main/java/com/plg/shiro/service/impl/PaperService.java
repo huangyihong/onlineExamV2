@@ -162,10 +162,20 @@ public class PaperService implements IPaperService {
 		omPaperMapper.updateByPrimaryKeySelective(record);
 	}
 	
-	private void deleteOmPaperQuestionByPaperId(String paperId) {
+	@Override
+	public void deleteOmPaperQuestionByPaperId(String paperId) {
 		OmPaperQuestionExample example = new OmPaperQuestionExample();
 		OmPaperQuestionExample.Criteria c = example.createCriteria();
         c.andPaperIdEqualTo(paperId);
+        omPaperQuestionMapper.deleteByExample(example);
+	}
+	
+	@Override
+	public void deleteOmPaperQuestionByPaperId(String paperId,String userId) {
+		OmPaperQuestionExample example = new OmPaperQuestionExample();
+		OmPaperQuestionExample.Criteria c = example.createCriteria();
+        c.andPaperIdEqualTo(paperId);
+        c.andUserIdEqualTo(userId);
         omPaperQuestionMapper.deleteByExample(example);
 	}
 

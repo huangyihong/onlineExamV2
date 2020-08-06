@@ -20,6 +20,7 @@ import com.plg.shiro.entity.OmExamPlanVo;
 import com.plg.shiro.entity.OmExamPlanVoExample;
 import com.plg.shiro.entity.OmExamSubmit;
 import com.plg.shiro.entity.OmExamUser;
+import com.plg.shiro.entity.OmPaper;
 import com.plg.shiro.entity.OmUser;
 import com.plg.shiro.service.IExamAnswerService;
 import com.plg.shiro.service.IExamPlanService;
@@ -45,6 +46,9 @@ public class ExamPlanService implements IExamPlanService {
 	
 	@Resource
 	private IExamAnswerService answerService;
+	
+	@Resource
+	private  PaperService paperService;
 	
 	
 	@Override
@@ -233,6 +237,11 @@ public class ExamPlanService implements IExamPlanService {
 		answerService.deleteExamAnswer(userId,planId,paperId);
 		//2.清除用户答卷记录
 		submitService.deleteExamSubmit(userId,planId,paperId);
+		//3.清除随机试卷的用户试卷题目表
+		OmPaper bean = paperService.selectByPrimaryKey(paperId);
+		if(bean!=null&&!"1".equals(bean.getAddMode())){//随机
+			paperService.deleteOmPaperQuestionByPaperId(paperId,userId);
+		}
 	}
 
 }

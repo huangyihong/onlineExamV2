@@ -1,0 +1,25 @@
+.layadmin-font-em {
+    font-size: 13px;
+    color: #758697;
+}
+.layadmin-serach-list {
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f6f6f6;
+}
+.right_top{
+right: 20px;
+top: 50px;
+overflow: hidden;
+z-index: 9999;
+position: fixed;
+padding:5px;
+}
+.lastTime_class{
+	color: #00A06B;
+	font-size: 16px;
+	font-weight: 900;
+}
+.paperName_class{
+	font-size: 18px;
+}
