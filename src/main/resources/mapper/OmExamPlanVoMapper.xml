@@ -22,6 +22,7 @@
     <result column="passing_type" jdbcType="VARCHAR" property="passingType" />
     <result column="auto_mark_flag" jdbcType="VARCHAR" property="autoMarkFlag" />
     <result column="plan_type" jdbcType="VARCHAR" property="planType" />
+    <result column="plan_time" jdbcType="VARCHAR" property="planTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -84,7 +85,7 @@
   <sql id="Base_Column_List">
     plan_id, plan_name, paper_id, create_time, update_time, paper_name, paper_score, 
     paper_time, add_mode, single_count, multi_count, judge_count, blank_count, answer_count, 
-    course_id, course_name, passing_score, passing_type, auto_mark_flag,plan_type
+    course_id, course_name, passing_score, passing_type, auto_mark_flag,plan_type,plan_time
   </sql>
   <select id="selectByExample" parameterType="com.plg.shiro.entity.OmExamPlanVoExample" resultMap="BaseResultMap">
     select
@@ -93,9 +94,9 @@
     </if>
     <include refid="Base_Column_List" />
     from  (
-	    select t.plan_id, t.plan_name, t.paper_id, t.create_time, t.update_time,t.auto_mark_flag,t.plan_type,
+	    select t.plan_id, t.plan_name, t.paper_id, t.create_time, t.update_time,t.auto_mark_flag,t.plan_type,t.plan_time,
      t1.paper_name, t1.paper_score, t1.paper_time, t1.add_mode, t1.single_count, t1.multi_count, 
-    t1.judge_count, t1.blank_count, t1.answer_count, t1.course_id, t1.course_name, passing_score, passing_type
+    t1.judge_count, t1.blank_count, t1.answer_count, t.course_id, t.course_name, passing_score, passing_type
 		from om_exam_plan t, om_paper t1 where t.paper_id=t1.paper_id and t.deleted='0' and t1.deleted='0'
 	 ) as t
     <if test="_parameter != null">
@@ -112,9 +113,9 @@
     select 
     <include refid="Base_Column_List" />
     from  (
-	    select t.plan_id, t.plan_name, t.paper_id, t.create_time, t.update_time,t.auto_mark_flag,t.plan_type,
+	    select t.plan_id, t.plan_name, t.paper_id, t.create_time, t.update_time,t.auto_mark_flag,t.plan_type,t.plan_time,
      t1.paper_name, t1.paper_score, t1.paper_time, t1.add_mode, t1.single_count, t1.multi_count, 
-    t1.judge_count, t1.blank_count, t1.answer_count, t1.course_id, t1.course_name, passing_score, passing_type
+    t1.judge_count, t1.blank_count, t1.answer_count, t.course_id, t.course_name, passing_score, passing_type
 		from om_exam_plan t, om_paper t1 where t.paper_id=t1.paper_id and t.deleted='0' and t1.deleted='0'
 	 ) as t
     where plan_id = #{planId,jdbcType=VARCHAR}
@@ -136,14 +137,14 @@
       single_count, multi_count, judge_count, 
       blank_count, answer_count, course_id, 
       course_name, passing_score, passing_type, 
-      auto_mark_flag,plan_type)
+      auto_mark_flag,plan_type,plan_time)
     values (#{planId,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR}, #{paperId,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{paperName,jdbcType=VARCHAR}, 
       #{paperScore,jdbcType=INTEGER}, #{paperTime,jdbcType=INTEGER}, #{addMode,jdbcType=VARCHAR}, 
       #{singleCount,jdbcType=INTEGER}, #{multiCount,jdbcType=INTEGER}, #{judgeCount,jdbcType=INTEGER}, 
       #{blankCount,jdbcType=INTEGER}, #{answerCount,jdbcType=INTEGER}, #{courseId,jdbcType=VARCHAR}, 
       #{courseName,jdbcType=VARCHAR}, #{passingScore,jdbcType=INTEGER}, #{passingType,jdbcType=VARCHAR}, 
-      #{autoMarkFlag,jdbcType=VARCHAR},#{planType,jdbcType=VARCHAR})
+      #{autoMarkFlag,jdbcType=VARCHAR},#{planType,jdbcType=VARCHAR},#{planTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.plg.shiro.entity.OmExamPlanVo">
     insert into om_exam_plan_vo
@@ -208,6 +209,9 @@
       <if test="planType != null">
         plan_type,
       </if>
+      <if test="planTime != null">
+        plan_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="planId != null">
@@ -270,13 +274,16 @@
       <if test="planType != null">
         #{planType,jdbcType=VARCHAR},
       </if>
+      <if test="planTime != null">
+        #{planTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.plg.shiro.entity.OmExamPlanVoExample" resultType="java.lang.Long">
     select count(*) from  (
-	    select t.plan_id, t.plan_name, t.paper_id, t.create_time, t.update_time,t.auto_mark_flag,t.plan_type,
+	    select t.plan_id, t.plan_name, t.paper_id, t.create_time, t.update_time,t.auto_mark_flag,t.plan_type,t.plan_time,
      t1.paper_name, t1.paper_score, t1.paper_time, t1.add_mode, t1.single_count, t1.multi_count, 
-    t1.judge_count, t1.blank_count, t1.answer_count, t1.course_id, t1.course_name, passing_score, passing_type
+    t1.judge_count, t1.blank_count, t1.answer_count, t.course_id, t.course_name, passing_score, passing_type
 		from om_exam_plan t, om_paper t1 where t.paper_id=t1.paper_id and t.deleted='0' and t1.deleted='0'
 	 ) as t
     <if test="_parameter != null">
@@ -346,6 +353,9 @@
       <if test="record.planType != null">
         plan_type = #{record.planType,jdbcType=VARCHAR},
       </if>
+      <if test="record.planTime != null">
+        plan_time = #{record.planTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -372,7 +382,8 @@
       passing_score = #{record.passingScore,jdbcType=INTEGER},
       passing_type = #{record.passingType,jdbcType=VARCHAR},
       auto_mark_flag = #{record.autoMarkFlag,jdbcType=VARCHAR},
-      plan_type = #{record.planType,jdbcType=VARCHAR}
+      plan_type = #{record.planType,jdbcType=VARCHAR},
+      plan_time = #{record.planTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -437,6 +448,9 @@
       <if test="planType != null">
         plan_type = #{planType,jdbcType=VARCHAR},
       </if>
+      <if test="planTime != null">
+        plan_time = #{planTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where plan_id = #{planId,jdbcType=VARCHAR}
   </update>
@@ -460,7 +474,8 @@
       passing_score = #{passingScore,jdbcType=INTEGER},
       passing_type = #{passingType,jdbcType=VARCHAR},
       auto_mark_flag = #{autoMarkFlag,jdbcType=VARCHAR},
-      plan_type = #{planType,jdbcType=VARCHAR}
+      plan_type = #{planType,jdbcType=VARCHAR},
+      plan_time = #{planTime,jdbcType=TIMESTAMP}
     where plan_id = #{planId,jdbcType=VARCHAR}
   </update>
 </mapper>

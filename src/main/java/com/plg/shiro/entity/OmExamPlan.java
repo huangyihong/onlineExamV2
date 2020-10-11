@@ -22,6 +22,12 @@ public class OmExamPlan {
     private String autoMarkFlag;
     
     private String planType;
+    
+    private String planTime;
+    
+    private String courseId;
+
+    private String courseName;
 
     public String getPlanId() {
         return planId;
@@ -101,6 +107,30 @@ public class OmExamPlan {
 
 	public void setPlanType(String planType) {
 		this.planType = planType;
+	}
+
+	public String getPlanTime() {
+		return planTime;
+	}
+
+	public void setPlanTime(String planTime) {
+		this.planTime = planTime;
+	}
+
+	public String getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(String courseId) {
+		this.courseId = courseId;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
     
 }

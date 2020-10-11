@@ -12,6 +12,9 @@
     <result column="deleted" jdbcType="VARCHAR" property="deleted" />
     <result column="auto_mark_flag" jdbcType="VARCHAR" property="autoMarkFlag" />
     <result column="plan_type" jdbcType="VARCHAR" property="planType" />
+    <result column="plan_time" jdbcType="TIMESTAMP" property="planTime" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     plan_id, plan_name, paper_id, passing_score, passing_type, create_time, update_time, 
-    deleted, auto_mark_flag,plan_type
+    deleted, auto_mark_flag,plan_type,plan_time,course_id,course_name
   </sql>
   <select id="selectByExample" parameterType="com.plg.shiro.entity.OmExamPlanExample" resultMap="BaseResultMap">
     select
@@ -111,11 +114,12 @@
   <insert id="insert" parameterType="com.plg.shiro.entity.OmExamPlan">
     insert into om_exam_plan (plan_id, plan_name, paper_id, 
       passing_score, passing_type, create_time, 
-      update_time, deleted, auto_mark_flag,plan_type
+      update_time, deleted, auto_mark_flag,plan_type,plan_time,course_id,course_name
       )
     values (#{planId,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR}, #{paperId,jdbcType=VARCHAR}, 
       #{passingScore,jdbcType=INTEGER}, #{passingType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=VARCHAR}, #{autoMarkFlag,jdbcType=VARCHAR}, #{planType,jdbcType=VARCHAR}
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=VARCHAR}, #{autoMarkFlag,jdbcType=VARCHAR}, #{planType,jdbcType=VARCHAR},
+      #{planTime,jdbcType=TIMESTAMP}, #{courseId,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.plg.shiro.entity.OmExamPlan">
@@ -151,6 +155,15 @@
       <if test="planType != null">
         plan_type,
       </if>
+      <if test="planTime != null">
+        plan_time,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="planId != null">
@@ -182,6 +195,15 @@
       </if>
       <if test="planType != null">
         #{planType,jdbcType=VARCHAR},
+      </if>
+      <if test="planTime != null">
+        #{planTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -224,6 +246,15 @@
       <if test="record.planType != null">
         plan_type = #{record.planType,jdbcType=VARCHAR},
       </if>
+      <if test="record.planTime != null">
+        plan_time = #{record.planTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.courseId != null">
+        course_id = #{record.courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseName != null">
+        course_name = #{record.courseName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -240,7 +271,10 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       deleted = #{record.deleted,jdbcType=VARCHAR},
       auto_mark_flag = #{record.autoMarkFlag,jdbcType=VARCHAR},
-      plan_type = #{record.planType,jdbcType=VARCHAR}
+      plan_type = #{record.planType,jdbcType=VARCHAR},
+      plan_time = #{record.planTime,jdbcType=TIMESTAMP},
+      course_id = #{record.courseId,jdbcType=VARCHAR},
+      course_name = #{record.courseName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -275,6 +309,15 @@
       <if test="planType != null">
         plan_type = #{planType,jdbcType=VARCHAR},
       </if>
+      <if test="planTime != null">
+        plan_time = #{planTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
     </set>
     where plan_id = #{planId,jdbcType=VARCHAR}
   </update>
@@ -288,7 +331,10 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=VARCHAR},
       auto_mark_flag = #{autoMarkFlag,jdbcType=VARCHAR},
-      plan_type = #{planType,jdbcType=VARCHAR}
+      plan_type = #{planType,jdbcType=VARCHAR},
+      plan_time = #{planTime,jdbcType=TIMESTAMP},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      course_name = #{courseName,jdbcType=VARCHAR}
     where plan_id = #{planId,jdbcType=VARCHAR}
   </update>
 </mapper>

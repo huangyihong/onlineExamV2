@@ -40,12 +40,6 @@
                 <input type="text" id="singleCount" autocomplete="off" class="layui-input" value="${bean.singleCount+bean.multiCount+bean.judgeCount+bean.blankCount+bean.answerCount }" readonly>
             </div>
         </div>
-         <div class="layui-inline" style="display:none">
-            <label class="layui-form-label">科目：</label>
-            <div class="layui-input-inline">
-                <input type="text" id="courseName" autocomplete="off" class="layui-input" value="${bean.courseName }" readonly>
-            </div>
-        </div>
         <div class="layui-inline">
             <label class="layui-form-label"><span class="c-red">*</span>考试名称：</label>
             <div class="layui-input-inline">
@@ -76,6 +70,17 @@
                 <select name="autoMarkFlag" value="${bean.autoMarkFlag }">
                 	<option value="1" <c:if test="${bean.autoMarkFlag == '1' }">selected</c:if>>是</option>
                 	<option value="0" <c:if test="${bean.autoMarkFlag == '0' }">selected</c:if>>否</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">考试类别：</label>
+            <div class="layui-input-inline">
+                <select id="courseId" name="courseId" value="${bean.courseId }" lay-filter="courseId"  >
+                	<option value="">--请选择--</option>
+	                <c:forEach items="${courseList}" var="courseBean">
+	                	<option value="${courseBean.courseId }" <c:if test="${courseBean.courseId == bean.courseId }">selected</c:if>>${courseBean.courseName }</option>
+	                </c:forEach>
                 </select>
             </div>
         </div> 

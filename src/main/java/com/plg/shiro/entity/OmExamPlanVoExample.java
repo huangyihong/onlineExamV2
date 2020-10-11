@@ -1407,6 +1407,66 @@ public class OmExamPlanVoExample extends PageExample{
             addCriterion("plan_type not between", value1, value2, "planType");
             return (Criteria) this;
         }
+        
+        public Criteria andPlanTimeIsNull() {
+            addCriterion("plan_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeIsNotNull() {
+            addCriterion("plan_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeEqualTo(Date value) {
+            addCriterion("plan_time =", value, "planTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeNotEqualTo(Date value) {
+            addCriterion("plan_time <>", value, "planTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeGreaterThan(Date value) {
+            addCriterion("plan_time >", value, "planTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("plan_time >=", value, "planTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeLessThan(Date value) {
+            addCriterion("plan_time <", value, "planTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeLessThanOrEqualTo(Date value) {
+            addCriterion("plan_time <=", value, "planTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeIn(List<Date> values) {
+            addCriterion("plan_time in", values, "planTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeNotIn(List<Date> values) {
+            addCriterion("plan_time not in", values, "planTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeBetween(Date value1, Date value2) {
+            addCriterion("plan_time between", value1, value2, "planTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanTimeNotBetween(Date value1, Date value2) {
+            addCriterion("plan_time not between", value1, value2, "planTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -1,14 +1,26 @@
 var form = null;
-layui.use('form', function(){
+var laydate = null;
+layui.use(['form','laydate'], function(){
 	  form = layui.form;
+	  laydate = layui.laydate;
 	  form.render();
 	  
-	//监听提交
-	  form.on('submit(formSubmit)', function(data){
-		var fntype = $("#fntype").val();  
+	  laydate.render({
+		  elem: '#planTime'
+	     ,type: 'datetime'		  
+		 ,format: 'yyyy-MM-dd HH:mm:ss'
+	  });
+	  
+	  //监听提交
+	 form.on('submit(formSubmit)', function(data){
+		var fntype = $("#fntype").val(); 
+		var courseName = $("#courseId option:selected").text();
+		data.field.courseName = courseName;
 		save(data);	
 		return false;
 	 });
+	  
+	  
 });
 
 function save(data){

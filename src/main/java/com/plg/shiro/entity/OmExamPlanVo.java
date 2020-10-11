@@ -46,6 +46,8 @@ public class OmExamPlanVo {
     private String submitStatus;
     
     private String userId;
+    
+    private String planTime;
 
     public String getPlanId() {
         return planId;
@@ -222,4 +224,13 @@ public class OmExamPlanVo {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
+	public String getPlanTime() {
+		return planTime;
+	}
+
+	public void setPlanTime(String planTime) {
+		this.planTime = planTime;
+	}
+	
 }

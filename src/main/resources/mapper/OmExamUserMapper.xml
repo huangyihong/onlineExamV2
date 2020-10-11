@@ -10,6 +10,8 @@
     <result column="exam_user_type" jdbcType="VARCHAR" property="examUserType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="seat_num" jdbcType="VARCHAR" property="seatNum" />
+    <result column="exam_num" jdbcType="VARCHAR" property="examNum" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List">
     exam_user_id, plan_id, paper_id, user_id, group_id, exam_user_type, create_time, 
-    update_time
+    update_time,seat_num,exam_num
   </sql>
   <select id="selectByExample" parameterType="com.plg.shiro.entity.OmExamUserExample" resultMap="BaseResultMap">
     select
@@ -106,10 +108,10 @@
   <insert id="insert" parameterType="com.plg.shiro.entity.OmExamUser">
     insert into om_exam_user (exam_user_id, plan_id, paper_id, 
       user_id, group_id, exam_user_type, 
-      create_time, update_time)
+      create_time, update_time,seat_num,exam_num)
     values (#{examUserId,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{paperId,jdbcType=VARCHAR}, 
       #{userId,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{examUserType,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},#{seatNum,jdbcType=VARCHAR},#{examNum,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.plg.shiro.entity.OmExamUser">
     insert into om_exam_user
@@ -138,6 +140,12 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="seatNum != null">
+        seat_num,
+      </if>
+      <if test="examNum != null">
+        exam_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="examUserId != null">
@@ -163,6 +171,12 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seatNum != null">
+        #{seatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="examNum != null">
+        #{examNum,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -199,6 +213,12 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.seatNum != null">
+        seat_num = #{record.seatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examNum != null">
+        exam_num = #{record.examNum,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -213,7 +233,9 @@
       group_id = #{record.groupId,jdbcType=VARCHAR},
       exam_user_type = #{record.examUserType,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      seat_num = #{record.seatNum,jdbcType=VARCHAR},
+      exam_num = #{record.examNum,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -242,6 +264,12 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="seatNum != null">
+        seat_num = #{seatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="examNum != null">
+        exam_num = #{examNum,jdbcType=VARCHAR},
+      </if>
     </set>
     where exam_user_id = #{examUserId,jdbcType=VARCHAR}
   </update>
@@ -253,7 +281,9 @@
       group_id = #{groupId,jdbcType=VARCHAR},
       exam_user_type = #{examUserType,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      seat_num = #{seatNum,jdbcType=VARCHAR},
+      exam_num = #{examNum,jdbcType=VARCHAR}
     where exam_user_id = #{examUserId,jdbcType=VARCHAR}
   </update>
 </mapper>

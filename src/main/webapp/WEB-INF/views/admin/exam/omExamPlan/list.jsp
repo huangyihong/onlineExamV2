@@ -64,9 +64,9 @@
                     <i class="iconfont iconshanchu t-grey-999"></i> 删除
                 </button>
                 
-                <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="assignUser('1')">
+                <!-- <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="assignUser('1')">
                     	考试人员授权	
-                </button>
+                </button> -->
                 
                 <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="assignUser('2')">
                     	评卷人员授权	

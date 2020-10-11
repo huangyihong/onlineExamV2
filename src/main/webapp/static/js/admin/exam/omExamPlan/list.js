@@ -10,6 +10,9 @@ var createUrl = baseUrl +'/create';
 var delUrl = baseUrl +'/del';
 var assignUserUrl = baseUrl +'/assignUser';
 var showUrl = WEBROOT + '/admin/exam/omPaper/show';
+var importAssignUserUrl =  baseUrl +'/importAssignUser';
+var batchPrintUrl = baseUrl +'/batchPrint';
+var exportAssignUserUrl =  baseUrl +'/exportAssignUser';
 
 $(function () {
 	//初始列表
@@ -58,6 +61,16 @@ function initGrid() {
 	                 return '<div>'+num+'</div>'
 	              }}
 	             //,{field:'courseName', width:100, title: '科目'}
+	             ,{field:'planId', width:120, title: '打印',templet:function(d){
+	                 return "<div><a href='javascript:void(0)' class='layui-btn layui-btn-normal layui-btn-xs'  onclick=toPrint('"+d.planId+"') >批量打印准考证</a></div>"
+	              }}
+	             ,{field:'planId', width:130, title: '导入',templet:function(d){
+	                 return "<div><a href='javascript:void(0)' class='layui-btn layui-btn-normal layui-btn-xs'  onclick=importAssignUser('"+d.planId+"') >考试人员授权导入</a></div>"
+	              }}
+	             ,{field:'planId', width:130, title: '导出',templet:function(d){
+	                 return "<div><a href='javascript:void(0)' class='layui-btn layui-btn-normal layui-btn-xs'  onclick=exportAssignUser('"+d.planId+"') >考试授权人员导出</a></div>"
+	              }}
+	             
 	           ]];
 	var keyFiled= "planId";//主键
 	var limit = 10;//分页
@@ -112,6 +125,19 @@ function showPaper(id){
 	 var title = '试卷预览';
 	 var isreload = 0;
 	 commonCreateView(title,url,isreload,'500','500',1);
+}
+
+function importAssignUser(planId){
+	commonCreateView('考试人员授权导入',importAssignUserUrl+"?planId="+planId,0,'800','500',0);
+}
+
+function toPrint(planId){
+	commonCreateView("批量打印准考证",batchPrintUrl+"?planId="+planId,0,'500','500',1);
+}
+
+function exportAssignUser(planId){
+	var url = exportAssignUserUrl+"?planId="+planId;
+	window.open(url);
 }
 
 

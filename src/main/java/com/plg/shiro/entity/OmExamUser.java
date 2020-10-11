@@ -18,6 +18,10 @@ public class OmExamUser {
     private Date createTime;
 
     private Date updateTime;
+    
+    private String seatNum;
+    
+    private String examNum;
 
     public String getExamUserId() {
         return examUserId;
@@ -82,4 +86,20 @@ public class OmExamUser {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	public String getSeatNum() {
+		return seatNum;
+	}
+
+	public void setSeatNum(String seatNum) {
+		this.seatNum = seatNum;
+	}
+
+	public String getExamNum() {
+		return examNum;
+	}
+
+	public void setExamNum(String examNum) {
+		this.examNum = examNum;
+	}
 }
