@@ -22,6 +22,7 @@
     <li>判断题</li>
     <li>填空题</li>
     <li>简答题</li>
+    <li>案例题</li>
   </ul>
   <div class="layui-tab-content">
     <div class="layui-tab-item layui-show"><iframe id="iframe1" src="${contextPath }/admin/exam/omQuestion/create?fntype=add&questionType=1&courseId=${courseId}" width="100%" scrolling="auto" style="border:0px;" onload="iframeLoad()"></iframe></div>
@@ -29,6 +30,7 @@
     <div class="layui-tab-item"><iframe id="iframe3" src="${contextPath }/admin/exam/omQuestion/create?fntype=add&questionType=3&courseId=${courseId}" width="100%" scrolling="auto" style="border:0px;" onload="iframeLoad()"></iframe></div>
     <div class="layui-tab-item"><iframe id="iframe4" src="${contextPath }/admin/exam/omQuestion/create?fntype=add&questionType=4&courseId=${courseId}" width="100%" scrolling="auto" style="border:0px;" onload="iframeLoad()"></iframe></div>
     <div class="layui-tab-item"><iframe id="iframe5" src="${contextPath }/admin/exam/omQuestion/create?fntype=add&questionType=5&courseId=${courseId}" width="100%" scrolling="auto" style="border:0px;" onload="iframeLoad()"></iframe></div>
+    <div class="layui-tab-item"><iframe id="iframe6" src="${contextPath }/admin/exam/omQuestion/create?fntype=add&questionType=6&courseId=${courseId}" width="100%" scrolling="auto" style="border:0px;" onload="iframeLoad()"></iframe></div>
   </div>
 </div> 
 </div>
@@ -41,7 +43,7 @@ layui.use('element', function(){
 function iframeLoad(){
 	var height = $(window).height() - 100;
 	var i=1;
-	while(i<=5){
+	while(i<=6){
 		document.getElementById("iframe"+i).height=height;
 		i++;
 	}

@@ -53,7 +53,7 @@ function initGrid() {
 	                 return '<div>'+html+'</div>'
 	              }}
 	             ,{field:'singleCount', width:100, title: '题目数量',templet:function(d){
-	            	 var num = d.singleCount+d.multiCount+d.judgeCount+d.blankCount+d.answerCount
+	            	 var num = d.singleCount+d.multiCount+d.judgeCount+d.blankCount+d.answerCount+d.caseCount
 	                 return '<div>'+num+'</div>'
 	              }}
 	             //,{field:'courseName', width:100, title: '科目'}

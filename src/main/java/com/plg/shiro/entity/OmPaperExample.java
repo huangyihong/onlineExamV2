@@ -735,6 +735,76 @@ public class OmPaperExample extends PageExample{
             return (Criteria) this;
         }
 
+		public Criteria andCaseCountIsNull() {
+            addCriterion("case_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountIsNotNull() {
+            addCriterion("case_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountEqualTo(String value) {
+            addCriterion("case_count =", value, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountNotEqualTo(String value) {
+            addCriterion("case_count <>", value, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountGreaterThan(String value) {
+            addCriterion("case_count >", value, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountGreaterThanOrEqualTo(String value) {
+            addCriterion("case_count >=", value, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountLessThan(String value) {
+            addCriterion("case_count <", value, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountLessThanOrEqualTo(String value) {
+            addCriterion("case_count <=", value, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountLike(String value) {
+            addCriterion("case_count like", value, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountNotLike(String value) {
+            addCriterion("case_count not like", value, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountIn(List<String> values) {
+            addCriterion("case_count in", values, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountNotIn(List<String> values) {
+            addCriterion("case_count not in", values, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountBetween(String value1, String value2) {
+            addCriterion("case_count between", value1, value2, "caseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseCountNotBetween(String value1, String value2) {
+            addCriterion("case_count not between", value1, value2, "caseCount");
+            return (Criteria) this;
+        }
+        
         public Criteria andCourseIdIsNull() {
             addCriterion("course_id is null");
             return (Criteria) this;

@@ -6,13 +6,13 @@ layui.use('form', function(){
 	//监听提交
 	  form.on('submit(formSubmit)', function(data){
 		var questionType = $("#questionType").val();
-		if(questionType=='1'||questionType=='2'||questionType=='3'){
+		if(questionType=='1'||questionType=='2'||questionType=='6'||questionType=='3'){
 			var rightResult = $('input[name="rightResult"]:checked');
 			if(rightResult.length==0){
 				layer.msg('请选择问题的答案', {icon: 5});
 				return false;
 			}
-			if(questionType=='1'||questionType=='2'){
+			if(questionType=='1'||questionType=='2'||questionType=='6'){
 				if(!$('input[name="optionA"]').val()&&!$('input[name="optionB"]').val()&&!$('input[name="optionC"]').val()&&!$('input[name="optionD"]').val()
 				  &&!$('input[name="optionE"]').val()&&!$('input[name="optionF"]').val()&&!$('input[name="optionG"]').val()&&!$('input[name="optionH"]').val()){
 					layer.msg('请至少输入一个选项', {icon: 5});
@@ -29,7 +29,7 @@ layui.use('form', function(){
 function save(data){
 	var url = WEBROOT + '/admin/exam/omQuestion/save';
 	var questionType = $("#questionType").val();
-	if(questionType=='2'){
+	if(questionType=='2'||questionType=='6'){
 		var arr = new Array();
 	    $("input:checkbox[name='rightResult']:checked").each(function(i){
 	    	arr[i] = $(this).val();

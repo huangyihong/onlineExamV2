@@ -16,6 +16,7 @@
     <result column="judge_count" jdbcType="INTEGER" property="judgeCount" />
     <result column="blank_count" jdbcType="INTEGER" property="blankCount" />
     <result column="answer_count" jdbcType="INTEGER" property="answerCount" />
+    <result column="case_count" jdbcType="INTEGER" property="caseCount" />
     <result column="course_id" jdbcType="VARCHAR" property="courseId" />
     <result column="course_name" jdbcType="VARCHAR" property="courseName" />
     <result column="passing_score" jdbcType="INTEGER" property="passingScore" />
@@ -84,7 +85,7 @@
   </sql>
   <sql id="Base_Column_List">
     plan_id, plan_name, paper_id, create_time, update_time, paper_name, paper_score, 
-    paper_time, add_mode, single_count, multi_count, judge_count, blank_count, answer_count, 
+    paper_time, add_mode, single_count, multi_count, judge_count, blank_count, answer_count, case_count,
     course_id, course_name, passing_score, passing_type, auto_mark_flag,plan_type,plan_time
   </sql>
   <select id="selectByExample" parameterType="com.plg.shiro.entity.OmExamPlanVoExample" resultMap="BaseResultMap">
@@ -96,7 +97,7 @@
     from  (
 	    select t.plan_id, t.plan_name, t.paper_id, t.create_time, t.update_time,t.auto_mark_flag,t.plan_type,t.plan_time,
      t1.paper_name, t1.paper_score, t1.paper_time, t1.add_mode, t1.single_count, t1.multi_count, 
-    t1.judge_count, t1.blank_count, t1.answer_count, t.course_id, t.course_name, passing_score, passing_type
+    t1.judge_count, t1.blank_count, t1.answer_count, t1.case_count, t.course_id, t.course_name, passing_score, passing_type
 		from om_exam_plan t, om_paper t1 where t.paper_id=t1.paper_id and t.deleted='0' and t1.deleted='0'
 	 ) as t
     <if test="_parameter != null">
@@ -115,7 +116,7 @@
     from  (
 	    select t.plan_id, t.plan_name, t.paper_id, t.create_time, t.update_time,t.auto_mark_flag,t.plan_type,t.plan_time,
      t1.paper_name, t1.paper_score, t1.paper_time, t1.add_mode, t1.single_count, t1.multi_count, 
-    t1.judge_count, t1.blank_count, t1.answer_count, t.course_id, t.course_name, passing_score, passing_type
+    t1.judge_count, t1.blank_count, t1.answer_count, t1.case_count, t.course_id, t.course_name, passing_score, passing_type
 		from om_exam_plan t, om_paper t1 where t.paper_id=t1.paper_id and t.deleted='0' and t1.deleted='0'
 	 ) as t
     where plan_id = #{planId,jdbcType=VARCHAR}
@@ -135,14 +136,14 @@
       create_time, update_time, paper_name, 
       paper_score, paper_time, add_mode, 
       single_count, multi_count, judge_count, 
-      blank_count, answer_count, course_id, 
+      blank_count, answer_count, case_count, course_id, 
       course_name, passing_score, passing_type, 
       auto_mark_flag,plan_type,plan_time)
     values (#{planId,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR}, #{paperId,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{paperName,jdbcType=VARCHAR}, 
       #{paperScore,jdbcType=INTEGER}, #{paperTime,jdbcType=INTEGER}, #{addMode,jdbcType=VARCHAR}, 
       #{singleCount,jdbcType=INTEGER}, #{multiCount,jdbcType=INTEGER}, #{judgeCount,jdbcType=INTEGER}, 
-      #{blankCount,jdbcType=INTEGER}, #{answerCount,jdbcType=INTEGER}, #{courseId,jdbcType=VARCHAR}, 
+      #{blankCount,jdbcType=INTEGER}, #{answerCount,jdbcType=INTEGER},#{caseCount,jdbcType=INTEGER}, #{courseId,jdbcType=VARCHAR}, 
       #{courseName,jdbcType=VARCHAR}, #{passingScore,jdbcType=INTEGER}, #{passingType,jdbcType=VARCHAR}, 
       #{autoMarkFlag,jdbcType=VARCHAR},#{planType,jdbcType=VARCHAR},#{planTime,jdbcType=TIMESTAMP})
   </insert>
@@ -190,6 +191,9 @@
       </if>
       <if test="answerCount != null">
         answer_count,
+      </if>
+      <if test="caseCount != null">
+        case_count,
       </if>
       <if test="courseId != null">
         course_id,
@@ -256,6 +260,9 @@
       <if test="answerCount != null">
         #{answerCount,jdbcType=INTEGER},
       </if>
+      <if test="caseCount != null">
+        #{caseCount,jdbcType=INTEGER},
+      </if>
       <if test="courseId != null">
         #{courseId,jdbcType=VARCHAR},
       </if>
@@ -283,7 +290,7 @@
     select count(*) from  (
 	    select t.plan_id, t.plan_name, t.paper_id, t.create_time, t.update_time,t.auto_mark_flag,t.plan_type,t.plan_time,
      t1.paper_name, t1.paper_score, t1.paper_time, t1.add_mode, t1.single_count, t1.multi_count, 
-    t1.judge_count, t1.blank_count, t1.answer_count, t.course_id, t.course_name, passing_score, passing_type
+    t1.judge_count, t1.blank_count, t1.answer_count, t1.case_count, t.course_id, t.course_name, passing_score, passing_type
 		from om_exam_plan t, om_paper t1 where t.paper_id=t1.paper_id and t.deleted='0' and t1.deleted='0'
 	 ) as t
     <if test="_parameter != null">
@@ -335,6 +342,9 @@
       <if test="record.answerCount != null">
         answer_count = #{record.answerCount,jdbcType=INTEGER},
       </if>
+      <if test="record.caseCount != null">
+        case_count = #{record.caseCount,jdbcType=INTEGER},
+      </if>
       <if test="record.courseId != null">
         course_id = #{record.courseId,jdbcType=VARCHAR},
       </if>
@@ -377,6 +387,7 @@
       judge_count = #{record.judgeCount,jdbcType=INTEGER},
       blank_count = #{record.blankCount,jdbcType=INTEGER},
       answer_count = #{record.answerCount,jdbcType=INTEGER},
+      case_count = #{record.caseCount,jdbcType=INTEGER},
       course_id = #{record.courseId,jdbcType=VARCHAR},
       course_name = #{record.courseName,jdbcType=VARCHAR},
       passing_score = #{record.passingScore,jdbcType=INTEGER},
@@ -430,6 +441,9 @@
       <if test="answerCount != null">
         answer_count = #{answerCount,jdbcType=INTEGER},
       </if>
+      <if test="caseCount != null">
+        case_count = #{caseCount,jdbcType=INTEGER},
+      </if>
       <if test="courseId != null">
         course_id = #{courseId,jdbcType=VARCHAR},
       </if>
@@ -469,6 +483,7 @@
       judge_count = #{judgeCount,jdbcType=INTEGER},
       blank_count = #{blankCount,jdbcType=INTEGER},
       answer_count = #{answerCount,jdbcType=INTEGER},
+      case_count = #{caseCount,jdbcType=INTEGER},
       course_id = #{courseId,jdbcType=VARCHAR},
       course_name = #{courseName,jdbcType=VARCHAR},
       passing_score = #{passingScore,jdbcType=INTEGER},

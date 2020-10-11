@@ -212,6 +212,7 @@ public class PaperController {
   		List<OmQuestionVo> questionList3 = new ArrayList<OmQuestionVo>();
   		List<OmQuestionVo> questionList4 = new ArrayList<OmQuestionVo>();
   		List<OmQuestionVo> questionList5 = new ArrayList<OmQuestionVo>();
+  		List<OmQuestionVo> questionList6 = new ArrayList<OmQuestionVo>();
   		if("1".equals(bean.getAddMode())){//人工
   			List<OmQuestion> questionList = questionService.selectPaperQuestion(bean.getPaperId());
   	  		for(OmQuestion questionBean:questionList){
@@ -238,6 +239,9 @@ public class PaperController {
   	  				    break;
   	  				case "5":
   	  					questionList5.add(questionVo);
+  	  					break;
+  	  				case "6":
+	  					questionList6.add(questionVo);	
   	  				    break;    
   	  			}
   	  		}
@@ -270,7 +274,10 @@ public class PaperController {
   		  				    break;
   		  				case "5":
   		  					questionList5.add(questionVo);
-  		  				    break;    
+  		  				    break;
+  		  				case "6":
+		  					questionList6.add(questionVo);
+		  				    break;        
   		  			}
   				}
   			}
@@ -280,8 +287,9 @@ public class PaperController {
   		request.setAttribute("questionList3", questionList3);
   		request.setAttribute("questionList4", questionList4);
   		request.setAttribute("questionList5", questionList5);
+  		request.setAttribute("questionList6", questionList6);
   		request.setAttribute("bean", bean);
-  		String[] questionTypeArr = {"一","二","三","四","五"};
+  		String[] questionTypeArr = {"一","二","三","四","五","六"};
   		request.setAttribute("questionTypeArr",questionTypeArr);
     	return PAPER_PATH+"show";
   	}
@@ -333,7 +341,7 @@ public class PaperController {
   		//获取试卷的题目数据
   		getPaperQuestion(request, answerUserId, paperId, bean, planId);
   		request.setAttribute("bean", bean);
-  		String[] questionTypeArr = {"一","二","三","四","五"};
+  		String[] questionTypeArr = {"一","二","三","四","五","六"};
   		request.setAttribute("questionTypeArr",questionTypeArr);
   		request.setAttribute("type", type);
   		if("markExam".equals(type)){
@@ -355,6 +363,7 @@ public class PaperController {
   		List<OmQuestionVo> questionList3 = new ArrayList<OmQuestionVo>();
   		List<OmQuestionVo> questionList4 = new ArrayList<OmQuestionVo>();
   		List<OmQuestionVo> questionList5 = new ArrayList<OmQuestionVo>();
+  		List<OmQuestionVo> questionList6 = new ArrayList<OmQuestionVo>();
 		//答案
 		List<OmExamAnswer> answerList = answerService.selectByUserPaperID(answerUserId, planId, paperId);
 		Map<String,OmExamAnswer> answerMap = new HashMap<String,OmExamAnswer>();
@@ -402,6 +411,9 @@ public class PaperController {
   				    break;
   				case "5":
   					questionList5.add(questionVo);
+  				    break;  
+  				case "6":
+  					questionList6.add(questionVo);
   				    break;    
   			}
   		}
@@ -410,6 +422,7 @@ public class PaperController {
   		request.setAttribute("questionList3", questionList3);
   		request.setAttribute("questionList4", questionList4);
   		request.setAttribute("questionList5", questionList5);
+  		request.setAttribute("questionList6", questionList6);
 	}
   	
     //答题 每一道题
@@ -471,6 +484,7 @@ public class PaperController {
   		List<OmQuestion> questionList3 = new ArrayList<OmQuestion>();
   		List<OmQuestion> questionList4 = new ArrayList<OmQuestion>();
   		List<OmQuestion> questionList5 = new ArrayList<OmQuestion>();
+  		List<OmQuestion> questionList6 = new ArrayList<OmQuestion>();
 		List<OmQuestion> questionList = questionService.selectPaperQuestion(bean.getPaperId());
   		for(OmQuestion questionBean:questionList){
   			String questionType = questionBean.getQuestionType();
@@ -489,10 +503,13 @@ public class PaperController {
   				    break;
   				case "5":
   					questionList5.add(questionBean);
+  				    break; 
+  				case "6":
+  					questionList6.add(questionBean);
   				    break;    
   			}
   		}
-  		String[] questionTypeArr = {"一","二","三","四","五"};
+  		String[] questionTypeArr = {"一","二","三","四","五","六"};
 		int questionTypeNum = 0;
 		List<Map<String,String>> question1MapList = new ArrayList<Map<String,String>>();
 		if(questionList1.size()>0){
@@ -622,6 +639,46 @@ public class PaperController {
 				question5MapList.add(questionMapTemp);
 			}
 		}
+		List<Map<String,String>> question6MapList = new ArrayList<Map<String,String>>();
+		if(questionList6.size()>0){
+			Map<String,String> questionMapTemp = null;
+			for (int i=0;i<questionList6.size();i++) {
+				questionMapTemp = new HashMap<String,String>();
+				OmQuestion question = questionList6.get(i);
+				String questionName = "";
+				if(i==0){
+					questionName +=questionTypeArr[questionTypeNum]+"、案例题\n ";
+					questionTypeNum++;
+				}
+				questionName +=(i+1)+"."+question.getQuestionName()+"("+question.getQuestionScore()+"分)\n ";
+				if(StringUtils.isNotBlank(question.getOptionA())){
+					questionName +="A、"+question.getOptionA()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionB())){
+					questionName +="B、"+question.getOptionB()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionC())){
+					questionName +="C、"+question.getOptionC()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionD())){
+					questionName +="D、"+question.getOptionD()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionE())){
+					questionName +="E、"+question.getOptionE()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionF())){
+					questionName +="F、"+question.getOptionF()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionG())){
+					questionName +="G、"+question.getOptionG()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionH())){
+					questionName +="H、"+question.getOptionH()+"\n ";
+				}
+				questionMapTemp.put("question.name",questionName);
+				question6MapList.add(questionMapTemp);
+			}
+		}
 		
 		String demoTemplate = "/template/paperTemplate.docx";//模板存放位置
 		String targetPath = this.getClass().getClassLoader().getResource("/template").getPath()+bean.getPaperName()+".doc";//生成文档存放位置
@@ -662,8 +719,11 @@ public class PaperController {
 	            }else{
 	            	export.deleteTable(table++);
 	            }
-
-			
+	  	        if(questionList6.size()>0){
+	            	 export.export(question6MapList, table++,0);
+	            }else{
+	            	export.deleteTable(table++);
+	            }
   	           
   				File file = new File(targetPath);
 
@@ -696,6 +756,7 @@ public class PaperController {
   		List<OmQuestion> questionList3 = new ArrayList<OmQuestion>();
   		List<OmQuestion> questionList4 = new ArrayList<OmQuestion>();
   		List<OmQuestion> questionList5 = new ArrayList<OmQuestion>();
+  		List<OmQuestion> questionList6 = new ArrayList<OmQuestion>();
 		List<OmQuestion> questionList = questionService.selectPaperQuestion(bean.getPaperId());
   		for(OmQuestion questionBean:questionList){
   			String questionType = questionBean.getQuestionType();
@@ -714,10 +775,13 @@ public class PaperController {
   				    break;
   				case "5":
   					questionList5.add(questionBean);
+  					break;
+  				case "6":
+  					questionList5.add(questionBean);		
   				    break;    
   			}
   		}
-  		String[] questionTypeArr = {"一","二","三","四","五"};
+  		String[] questionTypeArr = {"一","二","三","四","五","六"};
 		int questionTypeNum = 0;
 		int questionTotalNum = 0;
 		if(questionList1.size()>0){
@@ -897,6 +961,60 @@ public class PaperController {
 					questionTypeNum++;
 				}
 				questionName +=(i+1)+"."+question.getQuestionName()+"("+question.getQuestionScore()+"分)\n ";
+				map.put("question"+questionTotalNum, questionName);
+				//获取图片
+				List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(question.getQuestionId());
+				for(int k=0;k<imgList.size();k++) {
+					OmUploadImg imgBean = imgList.get(k);
+					Map<String,Object> pic = new HashMap<String, Object>();
+			        pic.put("width", 100);
+			        pic.put("height", 150);
+			        pic.put("type", imgBean.getImgSrc().substring(imgBean.getImgSrc().lastIndexOf(".")+1));
+			        try {
+						pic.put("content", WordUtils.inputStream2ByteArray(new FileInputStream(request.getSession().getServletContext().getRealPath("")+imgBean.getImgSrc()), true));
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					map.put("pic"+questionTotalNum+"_"+k, pic);
+				}
+				
+				questionTotalNum++;
+			}
+		}
+		if(questionList6.size()>0){
+			for (int i=0;i<questionList6.size();i++) {
+				OmQuestion question = questionList6.get(i);
+				String questionName = "";
+				if(i==0){
+					questionName +=questionTypeArr[questionTypeNum]+"、案例题\n ";
+					questionTypeNum++;
+				}
+				questionName +=(i+1)+"."+question.getQuestionName()+"("+question.getQuestionScore()+"分)\n ";
+				if(StringUtils.isNotBlank(question.getOptionA())){
+					questionName +="A、"+question.getOptionA()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionB())){
+					questionName +="B、"+question.getOptionB()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionC())){
+					questionName +="C、"+question.getOptionC()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionD())){
+					questionName +="D、"+question.getOptionD()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionE())){
+					questionName +="E、"+question.getOptionE()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionF())){
+					questionName +="F、"+question.getOptionF()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionG())){
+					questionName +="G、"+question.getOptionG()+"\n ";
+				}
+				if(StringUtils.isNotBlank(question.getOptionH())){
+					questionName +="H、"+question.getOptionH()+"\n ";
+				}
 				map.put("question"+questionTotalNum, questionName);
 				//获取图片
 				List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(question.getQuestionId());

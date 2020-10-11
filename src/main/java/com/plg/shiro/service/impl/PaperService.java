@@ -208,6 +208,9 @@ public class PaperService implements IPaperService {
 		if(record.getAnswerCount()>0){
 			questionList.addAll(questionService.selectAuto("5",record.getCourseId(), record.getAnswerCount()));
 		}
+		if(record.getCaseCount()>0){
+			questionList.addAll(questionService.selectAuto("6",record.getCourseId(), record.getCaseCount()));
+		}
 		int i=1;
 		for(OmQuestion question:questionList){
 			OmPaperQuestion bean = new OmPaperQuestion();
@@ -227,8 +230,9 @@ public class PaperService implements IPaperService {
 	public void updateAuto(OmPaper record) {
 		OmPaper oldBean = selectByPrimaryKey(record.getPaperId());
 		if(record.getSingleCount()!=oldBean.getSingleCount()||record.getMultiCount()!=oldBean.getMultiCount()||
-				record.getJudgeCount()!=oldBean.getJudgeCount()||record.getBlankCount()!=oldBean.getBlankCount()||
-				record.getAnswerCount()!=oldBean.getAnswerCount()||!record.getCourseId().equals(oldBean.getCourseId())){
+			record.getJudgeCount()!=oldBean.getJudgeCount()||record.getBlankCount()!=oldBean.getBlankCount()||
+			record.getAnswerCount()!=oldBean.getAnswerCount()||record.getCaseCount()!=oldBean.getCaseCount()||
+			!record.getCourseId().equals(oldBean.getCourseId())){
 			//删除原来的试题关联信息
 			deleteOmPaperQuestionByPaperId(record.getPaperId());
 			//插入试题关联信息
@@ -285,6 +289,7 @@ public class PaperService implements IPaperService {
 		int judgeCount = 0;
 		int blankCount = 0;
 		int answerCount = 0;
+		int caseCount = 0;
 		for(OmPaperDetail detailBean:detailDTOList){
 			paperScore +=detailBean.getQuestionScore()*detailBean.getQuestionCount();
 			String questionType = detailBean.getQuestionType();
@@ -303,6 +308,9 @@ public class PaperService implements IPaperService {
   				    break;
   				case "5":
   					answerCount +=detailBean.getQuestionCount();
+  				    break; 
+  				case "6":
+  					caseCount +=detailBean.getQuestionCount();
   				    break;    
   			}
 			detailBean.setId(UUIDUtil.getUUID());
@@ -315,6 +323,7 @@ public class PaperService implements IPaperService {
 		bean.setJudgeCount(judgeCount);
 		bean.setBlankCount(blankCount);
 		bean.setAnswerCount(answerCount);
+		bean.setCaseCount(caseCount);
 		return bean;
 	}
 	
@@ -333,6 +342,7 @@ public class PaperService implements IPaperService {
   		List<OmQuestion> questionList3 = new ArrayList<OmQuestion>();
   		List<OmQuestion> questionList4 = new ArrayList<OmQuestion>();
   		List<OmQuestion> questionList5 = new ArrayList<OmQuestion>();
+  		List<OmQuestion> questionList6 = new ArrayList<OmQuestion>();
 		for(OmPaperDetail detailBean:detailList){
 			List<OmQuestion> list = questionService.selectAuto(detailBean.getQuestionType(),detailBean.getCourseId(),detailBean.getQuestionCount());
 			String questionType = detailBean.getQuestionType();
@@ -353,6 +363,9 @@ public class PaperService implements IPaperService {
 	  				    break;
 	  				case "5":
 	  					questionList5.add(question);
+	  				    break;  
+	  				case "6":
+	  					questionList6.add(question);
 	  				    break;    
 	  			}
 			}
@@ -363,9 +376,10 @@ public class PaperService implements IPaperService {
 		map.put("questionList3", questionList3);
 		map.put("questionList4", questionList4);
 		map.put("questionList5", questionList5);
+		map.put("questionList6", questionList6);
 		List<OmQuestion> questionListAll = new ArrayList<OmQuestion>();
 		int i=1;
-		for(int j=1;j<=5;j++){
+		for(int j=1;j<=6;j++){
 			List<OmQuestion> questionList = map.get("questionList"+j);
 			for(OmQuestion question:questionList){
 				OmPaperQuestion bean = new OmPaperQuestion();

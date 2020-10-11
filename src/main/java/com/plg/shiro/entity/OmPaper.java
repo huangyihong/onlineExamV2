@@ -22,6 +22,8 @@ public class OmPaper {
     private Integer blankCount;
 
     private Integer answerCount;
+    
+    private Integer caseCount;
 
     private String courseId;
 
@@ -112,8 +114,16 @@ public class OmPaper {
     public void setAnswerCount(Integer answerCount) {
         this.answerCount = answerCount;
     }
+    
+    public Integer getCaseCount() {
+		return caseCount;
+	}
 
-    public String getCourseId() {
+	public void setCaseCount(Integer caseCount) {
+		this.caseCount = caseCount;
+	}
+
+	public String getCourseId() {
         return courseId;
     }
 

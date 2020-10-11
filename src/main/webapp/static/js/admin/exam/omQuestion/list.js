@@ -51,6 +51,9 @@ function initGrid() {
 	            	 if(questionType=='5'){
 	            		 html = '简答题'
 	            	 }
+	            	 if(questionType=='6'){
+	            		 html = '案例题'
+	            	 }
 	            	 return '<div>'+html+'</div>'
 	             }}
 	             ,{field:'questionName', width:300, title: '题目',templet:function(d){

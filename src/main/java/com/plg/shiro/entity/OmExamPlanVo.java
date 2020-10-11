@@ -30,6 +30,8 @@ public class OmExamPlanVo {
     private Integer blankCount;
 
     private Integer answerCount;
+    
+    private Integer caseCount;
 
     private String courseId;
 
@@ -160,8 +162,16 @@ public class OmExamPlanVo {
     public void setAnswerCount(Integer answerCount) {
         this.answerCount = answerCount;
     }
+    
+    public Integer getCaseCount() {
+		return caseCount;
+	}
 
-    public String getCourseId() {
+	public void setCaseCount(Integer caseCount) {
+		this.caseCount = caseCount;
+	}
+
+	public String getCourseId() {
         return courseId;
     }
 

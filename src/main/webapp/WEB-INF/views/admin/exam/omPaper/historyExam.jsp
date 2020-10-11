@@ -134,7 +134,7 @@
     	</c:if>
     	
     	<c:if test="${not empty questionList2 }">
-	    <div id="questionType1">
+	    <div id="questionType2">
 	    	<h4><strong>${questionTypeArr[questionTypeNum] }、多项选择题</strong></h4>
 	    	<c:forEach items="${questionList2}" var="question" varStatus="status">
 	    	    <div class="layui-form-item">
@@ -332,6 +332,74 @@
 	    	</c:forEach>
 	    	<c:set var="questionTypeNum" value="${questionTypeNum+1 }"/>
 	    </div>	
+    	</c:if>
+    	
+    	<c:if test="${not empty questionList6 }">
+	    <div id="questionType6">
+	    	<h4><strong>${questionTypeArr[questionTypeNum] }、案例题</strong></h4>
+	    	<c:forEach items="${questionList6}" var="question" varStatus="status">
+	    	    <div class="layui-form-item">
+	    	        <input type="hidden" name="questionId" value="${question.questionId }"/>
+	    	        <input type="hidden" name="answerId" value="${question.answerId }"/>
+		    		<p class="questionName">${status.index+1 }、${question.questionName }<span style="font-weight: bold;">( ${question.questionScore} 分 )</span></p>
+		    		<div class="layui-upload-list" id="imgList">
+		            <c:forEach items="${question.imgList}" var="imgBean" varStatus="status">
+				      	<div class="imgdiv">
+				      		<img src="${contextPath }${imgBean.imgSrc }" class="layui-upload-img" onclick="previewImg(this)"/>
+				      	</div>
+				    </c:forEach>
+				    </div>
+		    		<c:if test="${not empty question.optionA}">
+		            	<p>A、${question.optionA }</p>
+		            </c:if>
+		            <c:if test="${not empty question.optionB}">
+		            	<p>B、${question.optionB }</p>
+		            </c:if>
+		            <c:if test="${not empty question.optionC}">
+		            	<p>C、${question.optionC }</p>
+		            </c:if>
+		            <c:if test="${not empty question.optionD}">
+		            	<p>D、${question.optionD }</p>
+		            </c:if>
+		            <c:if test="${not empty question.optionE}">
+		            	<p>E、${question.optionE }</p>
+		            </c:if>
+		            <c:if test="${not empty question.optionF}">
+		            	<p>F、${question.optionF }</p>
+		            </c:if>
+		            <c:if test="${not empty question.optionG}">
+		            	<p>G、${question.optionG }</p>
+		            </c:if>
+		            <c:if test="${not empty question.optionH}">
+		            	<p>H、${question.optionH }</p>
+		            </c:if>
+		            <c:set var="color" value="error_span"/>
+		            <c:set var="questionScore" value="0"/>
+		            <c:if test="${question.answerResult==question.rightResult }">
+		            	<c:set var="color" value="correct_span"/>
+		            	<c:set var="questionScore" value="${question.questionScore}"/>
+		            </c:if>
+		            <c:if test="${type=='monitorExam' }">
+		            	<p style="border-bottom: 1px solid #e6e6e6;padding:2px">
+		            	      作答: <b class="${color}"> <c:if test="${not empty question.answerResult }">${question.answerResult }</c:if><c:if test="${empty question.answerResult }">未做</c:if></b>					     
+						</p>
+		            </c:if>
+		            <c:if test="${type!='monitorExam' }">
+		            	<p style="border-bottom: 1px solid #e6e6e6;padding:2px">
+		            	        标准答案:<b class="rightresult_span"> ${question.rightResult }</b>
+		                   &emsp; 作答: <b class="${color}"> <c:if test="${not empty question.answerResult }">${question.answerResult }</c:if><c:if test="${empty question.answerResult }">未做</c:if></b>
+					       &emsp;自动阅卷得分:<b class="questionscore_span"> ${questionScore }</b>
+					       &emsp;人工评卷打分:<b class="rightresult_span">${question.markScore }</b>
+					       <c:if test="${not empty question.markText}">
+					       	&emsp;备注:<b class="rightresult_span">${question.markText }</b>
+					       </c:if>
+						</p>
+		            </c:if>
+		            
+		    	</div>
+	    	</c:forEach>
+	    	<c:set var="questionTypeNum" value="${questionTypeNum+1 }"/>
+    	</div>
     	</c:if>
    </div>
 </div>

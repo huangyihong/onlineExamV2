@@ -224,7 +224,7 @@ public class QuestionController {
 				message +="第"+(i+1)+"行数据答案为空,忽略导入<br>";
 				continue;
 			}
-			if("1".equals(bean.getQuestionType())||"2".equals(bean.getQuestionType())){//单选多选
+			if("1".equals(bean.getQuestionType())||"2".equals(bean.getQuestionType())||"6".equals(bean.getQuestionType())){//单选多选
 				if(StringUtils.isBlank(bean.getOptionA())){
 					message +="第"+(i+1)+"行数据选项内容为空,忽略导入<br>";
 					continue;
@@ -292,7 +292,7 @@ public class QuestionController {
 //				bean.setOptionD(optionD);
 				
 				bean.setRightResult(bean.getRightResult().replace("?", ""));
-				if("2".equals(bean.getQuestionType())){
+				if("2".equals(bean.getQuestionType())||"6".equals(bean.getQuestionType())){
 					bean.setRightResult(bean.getRightResult().replace("，", ""));
 					bean.setRightResult(bean.getRightResult().replace(",", ""));
 					char[] rightResult_arr=bean.getRightResult().toCharArray();
@@ -354,16 +354,20 @@ public class QuestionController {
 		questionTypeMap.put("判断", "3");
 		questionTypeMap.put("填空", "4");
 		questionTypeMap.put("简答", "5");
+		questionTypeMap.put("案例", "6");
 		questionTypeMap.put("单选题", "1");
 		questionTypeMap.put("多选题", "2");
 		questionTypeMap.put("判断题", "3");
 		questionTypeMap.put("填空题", "4");
 		questionTypeMap.put("简答题", "5");
+		questionTypeMap.put("案例题", "6");
+		questionTypeMap.put("案例分析题", "6");
 		questionTypeMap.put("1", "1");
 		questionTypeMap.put("2", "2");
 		questionTypeMap.put("3", "3");
 		questionTypeMap.put("4", "4");
 		questionTypeMap.put("5", "5");
+		questionTypeMap.put("6", "6");
 		return questionTypeMap;
 	}
 	private Map<String, String> rightResultMap() {

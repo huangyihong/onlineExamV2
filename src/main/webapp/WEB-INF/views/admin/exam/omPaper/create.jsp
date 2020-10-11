@@ -120,7 +120,22 @@
 	            </div>
         	</div>
         </div>
-        
+    </div>
+    <div class="layui-form-item" id="questionType6">    
+        <div class="layui-inline">
+            <label class="layui-form-label">案例题：</label>
+            <div class="layui-input-inline">
+                <a class="layui-btn layui-btn-sm m-l-10" style="margin-top: 4px;" onclick="openSelectWin('6')">选择</a>
+            </div>
+            <div class="layui-input-inline" style="width: 90%;margin-left: 120px;">
+	            <input type="hidden" name="questionIds" value="">
+	            <input type="hidden" name="questionNames" value="">
+	            <input type="hidden" id="caseCount" name="caseCount" autocomplete="off" class="layui-input" value="${bean.caseCount }">
+	            <div class="multiSelect" style="margin-top: 0">
+	            	
+	            </div>
+        	</div>
+        </div>
     </div>
 
     <br>

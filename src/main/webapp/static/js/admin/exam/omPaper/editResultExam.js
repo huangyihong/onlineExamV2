@@ -30,7 +30,7 @@ $(function () {
 				var answerResult =$(o).closest('.layui-form-item').find("[name='answerResult']").val();//作答
 				var rightResult =$(o).closest('.layui-form-item').find("[name='rightResult']").val();//正确答案
 			    //得到更正的分数
-				if(questionType=='1'||questionType=='2'){
+				if(questionType=='1'||questionType=='2'||questionType=='6'){
 					val = val.toUpperCase();
 				}
 				if(questionType=='3'){
@@ -69,7 +69,7 @@ function save(data){
 			var answerId = $(this).closest('.layui-form-item').find("[name='answerId']").val();
 			var questionId = $(this).closest('.layui-form-item').find("[name='questionId']").val();
 		    //得到更正的分数
-			if(questionType=='1'||questionType=='2'){
+			if(questionType=='1'||questionType=='2'||questionType=='6'){
 				val = val.toUpperCase();
 			}
 			if(questionType=='3'){

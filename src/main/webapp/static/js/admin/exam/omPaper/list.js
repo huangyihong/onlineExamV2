@@ -27,10 +27,10 @@ function initGrid() {
 	             ,{field:'paperScore', width:300, title: '试卷总分'}
 	             ,{field:'paperTime', width:200, title: '考试时长(分)'}
 	             ,{field:'singleCount', width:100, title: '题目数量',templet:function(d){
-	            	 var num = d.singleCount+d.multiCount+d.judgeCount+d.blankCount+d.answerCount
+	            	 var num = d.singleCount+d.multiCount+d.judgeCount+d.blankCount+d.answerCount+d.caseCount
 	                 return '<div>'+num+'</div>'
 	              }}
-	             ,{field:'courseName', width:100, title: '科目'}
+	             /*,{field:'courseName', width:100, title: '科目'}*/
 	             ,{field:'addMode', width:200, title: '创建类型',templet:function(d){
 	            	 var addMode = d.addMode;
 	            	 if("1"==addMode){

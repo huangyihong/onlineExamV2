@@ -50,6 +50,7 @@
                 	<option value="3" <c:if test="${'3' == detailBean.questionType }">selected</c:if>>判断题</option>
                 	<option value="4" <c:if test="${'4' == detailBean.questionType }">selected</c:if>>填空题</option>
                 	<option value="5" <c:if test="${'5' == detailBean.questionType }">selected</c:if>>简答题</option>
+                	<option value="6" <c:if test="${'6' == detailBean.questionType }">selected</c:if>>案例题</option>
                 </select>
             </div>
         </div>

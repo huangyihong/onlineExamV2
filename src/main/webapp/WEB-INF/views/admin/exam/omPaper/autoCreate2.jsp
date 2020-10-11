@@ -77,6 +77,14 @@
             </div>
         </div>
     </div>
+    <div class="layui-form-item"> 
+        <div class="layui-inline">
+            <label class="layui-form-label">案例题题数：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="caseCount" autocomplete="off" class="layui-input" lay-verify="number" value="${bean.caseCount }">
+            </div>
+        </div>
+    </div>
 
     <br>
     <div class="layui-form-item" style="text-align: center">

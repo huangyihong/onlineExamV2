@@ -86,7 +86,7 @@ if(isPc){
     	</c:if>
     	
     	<c:if test="${not empty questionList2 }">
-	    <div id="questionType1">
+	    <div id="questionType2">
 	    	<h4><strong>${questionTypeArr[questionTypeNum] }、多项选择题</strong></h4>
 	    	<c:forEach items="${questionList2}" var="question" varStatus="status">
 	    	    <div class="layui-form-item">
@@ -196,6 +196,52 @@ if(isPc){
 	    	</c:forEach>
 	    	<c:set var="questionTypeNum" value="${questionTypeNum+1 }"/>
 	    </div>	
+    	</c:if>
+    	
+    	<c:if test="${not empty questionList6 }">
+	    <div id="questionType6">
+	    	<h4><strong>${questionTypeArr[questionTypeNum] }、案例题</strong></h4>
+	    	<c:forEach items="${questionList6}" var="question" varStatus="status">
+	    	    <div class="layui-form-item">
+	    	        <input type="hidden" name="questionId" value="${question.questionId }"/>
+		    		<c:set var="type" value="radio"/>
+		    		<c:if test="${question.questionType=='6' }"><c:set var="type" value="checkbox"/></c:if>
+		    		<p class="questionName">${status.index+1 }、${question.questionName }<span style="font-weight: bold;">( ${question.questionScore} 分 )</span></p>
+		            <div class="layui-upload-list" id="imgList">
+		            <c:forEach items="${question.imgList}" var="imgBean" varStatus="status">
+				      	<div class="imgdiv">
+				      		<img src="${contextPath }${imgBean.imgSrc }" class="layui-upload-img" onclick="previewImg(this)"/>
+				      	</div>
+				    </c:forEach>
+				    </div>
+		            <c:if test="${not empty question.optionA}">
+		            	<p><input type="${type }" name="rightResult" value="A" title="A、${question.optionA }" lay-skin="primary" lay-filter="rightResult" <c:if test="${fn:contains(question.answerResult,'A') }">checked</c:if>></p>
+		            </c:if>
+		            <c:if test="${not empty question.optionB}">
+		            	<p><input type="${type }" name="rightResult" value="B" title="B、${question.optionB }" lay-skin="primary" lay-filter="rightResult" <c:if test="${fn:contains(question.answerResult,'B') }">checked</c:if>></p>
+		            </c:if>
+		            <c:if test="${not empty question.optionC}">
+		            	<p><input type="${type }" name="rightResult" value="C" title="C、${question.optionC }" lay-skin="primary" lay-filter="rightResult" <c:if test="${fn:contains(question.answerResult,'C') }">checked</c:if>></p>
+		            </c:if>
+		            <c:if test="${not empty question.optionD}">
+		            	<p><input type="${type }" name="rightResult" value="D" title="D、${question.optionD }" lay-skin="primary" lay-filter="rightResult" <c:if test="${fn:contains(question.answerResult,'D') }">checked</c:if>></p>
+		            </c:if>
+		            <c:if test="${not empty question.optionE}">
+		            	<p><input type="${type }" name="rightResult" value="E" title="E、${question.optionE }" lay-skin="primary" lay-filter="rightResult" <c:if test="${fn:contains(question.answerResult,'E') }">checked</c:if>></p>
+		            </c:if>
+		            <c:if test="${not empty question.optionF}">
+		            	<p><input type="${type }" name="rightResult" value="F" title="F、${question.optionF }" lay-skin="primary" lay-filter="rightResult" <c:if test="${fn:contains(question.answerResult,'F') }">checked</c:if>></p>
+		            </c:if>
+		            <c:if test="${not empty question.optionG}">
+		            	<p><input type="${type }" name="rightResult" value="G" title="G、${question.optionG }" lay-skin="primary" lay-filter="rightResult" <c:if test="${fn:contains(question.answerResult,'G') }">checked</c:if>></p>
+		            </c:if>
+		            <c:if test="${not empty question.optionH}">
+		            	<p><input type="${type }" name="rightResult" value="H" title="H、${question.optionH }" lay-skin="primary" lay-filter="rightResult" <c:if test="${fn:contains(question.answerResult,'H') }">checked</c:if>></p>
+		            </c:if>
+	            </div>
+	    	</c:forEach>
+	    	<c:set var="questionTypeNum" value="${questionTypeNum+1 }"/>
+    	</div>
     	</c:if>
    </div>
 </div>

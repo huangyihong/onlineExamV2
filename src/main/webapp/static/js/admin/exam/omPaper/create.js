@@ -7,7 +7,7 @@ layui.use('form', function(){
 	  form.on('submit(formSubmit)', function(data){
 		var addMode = $("#addMode").val();
 		if(addMode=='1'){//人工添加
-			var id_arr = ['singleCount','multiCount','judgeCount','blankCount','answerCount'];
+			var id_arr = ['singleCount','multiCount','judgeCount','blankCount','answerCount','caseCount'];
 			var questionId_arr = setQuestionNum(id_arr);
 			if(questionId_arr.length==0){
 				layer.msg('请至少选择一个试题', {icon: 5});
@@ -16,7 +16,7 @@ layui.use('form', function(){
 			data.field.questionIds = questionId_arr.join(",")
 			//设置各类型题目数量
 			var i=1;
-			while(i<6){
+			while(i<=6){
 				data.field[id_arr[i-1]]=$("#"+id_arr[i-1]).val();
 				i++;
 			}

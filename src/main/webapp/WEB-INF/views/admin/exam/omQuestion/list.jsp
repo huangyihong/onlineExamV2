@@ -29,6 +29,7 @@
 				                	<option value="3">判断题</option>
 				                	<option value="4">填空题</option>
 				                	<option value="5">简答题</option>
+				                	<option value="6">案例题</option>
 				                </select>
 	                         </dd>
 	                     </ol>
