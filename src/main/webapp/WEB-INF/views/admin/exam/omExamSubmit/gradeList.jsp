@@ -77,6 +77,9 @@
 	                    <i class="iconfont">&#xe651;</i> 导出
 	                </button>
 	                
+	                <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="del">
+	                    <i class="iconfont iconshanchu t-grey-999"></i> 删除
+	                </button>
 	            </div>
 	        </div>
 	        <!--操作 end-->

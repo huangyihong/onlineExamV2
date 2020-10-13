@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.*" %>
 <%@ include file="/WEB-INF/views/common/include.inc.jsp"%>
+
 <style>
 .thumbnail {
     display: block;
@@ -36,26 +38,36 @@ p {
 </style>
 <body class="bg-color-white">
 <div class="layui-fluid container" style="margin-top: 10px;">
+	<fmt:formatDate value="<%=new Date()%>" pattern="yyyy-MM-dd HH:mm:ss" var="nowTime"/>
+	<c:set var="count" value="0"></c:set>
     <c:if test="${not empty planList&&fn:length(planList)>0 }">
 	<div class="layui-row">
 		<c:forEach items="${planList}" var="bean">
-		<div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-			<div class="thumbnail">
-				<div class="caption">
-					<h3>${bean.planName}</h3>
-					<p>试卷名称: ${bean.paperName }    </p>
-					<p>题目数量: ${bean.singleCount+bean.multiCount+bean.judgeCount+bean.blankCount+bean.answerCount }    总分: ${bean.paperScore }  考试时长: <span id="examPaperTime5">${bean.paperTime }</span> 分钟  </p>
-					<%-- <p class="beginTime">开始时间: ${bean.beginTime}</p> --%>
-					<p style="text-align: center;">
-						<a href="#" class="layui-btn" onclick="startExam('${bean.paperId}','${bean.planId}')">进入考试</a>
-					</p>
+			<c:if test="${not empty bean.planTime}">
+				<fmt:parseDate pattern="yyyy-MM-dd HH:mm:ss" value="${bean.planTime}" var="planTime"/>
+				<fmt:formatDate value="${planTime }" pattern="yyyy-MM-dd HH:mm:ss" var="planTime"/>
+			</c:if>
+			<c:if test="${not empty bean.planTime&&nowTime>=planTime}">
+			<c:set var="count" value="${count+1 }"></c:set>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+				<div class="thumbnail">
+					<div class="caption">
+						<h3>${bean.planName}</h3>
+						<p>试卷名称: ${bean.paperName }    </p>
+						<p>题目数量: ${bean.singleCount+bean.multiCount+bean.judgeCount+bean.blankCount+bean.answerCount }    总分: ${bean.paperScore }  考试时长: <span id="examPaperTime5">${bean.paperTime }</span> 分钟  </p>
+						<%-- <p class="beginTime">开始时间: ${bean.beginTime}</p> --%>
+						<p class="beginTime">开始时间: ${bean.planTime}</p>
+						<p style="text-align: center;">
+							<a href="#" class="layui-btn" onclick="startExam('${bean.paperId}','${bean.planId}')">进入考试</a>
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
+			</c:if>
 		</c:forEach>
 	</div>
 	</c:if>
-	<c:if test="${empty planList||fn:length(planList)==0 }">
+	<c:if test="${count==0 }">
 	<h1>暂无待考信息</h1>
 	<p>请等待分配</p>
 	<p>

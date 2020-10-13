@@ -252,6 +252,20 @@ public class ExamSubmitController {
 		return result;
 	}
     
+    //批量删除操作
+    @RequestMapping("del")
+    @ResponseBody
+	public AjaxObject del(HttpServletRequest request,String ids){
+    	AjaxObject result = AjaxObject.newOk("success");
+		try {
+			service.deleteBatch(ids);
+		} catch (Exception e) {
+			logger.error("删除成绩信息："  , e);
+			return AjaxObject.newError(e.getMessage());
+		}
+		return result;
+	}
+    
 	@RequestMapping("/exportGrade")
 	@SuppressWarnings("deprecation")
 	@ResponseBody

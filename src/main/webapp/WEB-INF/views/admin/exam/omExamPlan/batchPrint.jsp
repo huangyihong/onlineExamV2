@@ -19,13 +19,39 @@ text-align:left;
 </style>
 
 <div class="page-container">
-<button class="layui-btn layui-btn-primary layui-btn-sm" style="float:right;margin-right:50px" onclick="printSomething();">
-打印
-</button>
+<div class="layui-inline">
+            <label class="layui-form-label" style="width:120px;padding: 9px 0px;">纸张宽度(mm)：</label>
+            <div class="layui-input-inline" style="width:50px">
+                <input type="text" id="pageWidth" autocomplete="off" class="layui-input" value="210">
+            </div>
+        </div> 
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width:120px;padding: 9px 0px;">纸张高度(mm)：</label>
+            <div class="layui-input-inline" style="width:50px">
+                <input type="text" id="paperHeight" autocomplete="off" class="layui-input" value="305">
+            </div>
+        </div> 
+        <div class="layui-inline">
+        	<button class="layui-btn bg-color-blue-3195db layui-btn-sm" style="margin-left:30px" onclick="setAndPrintSomething();">设置并打印</button>
+        	<button class="layui-btn bg-color-blue-3195db layui-btn-sm" style="margin-right:20px" onclick="printSomething();">打印</button>
+        </div>    
+
+<c:choose>
+     <c:when test="${fn:length(plan.planTime) > 19}">
+         <c:set var="planTime" value="${fn:substring(plan.planTime, 0, 19)}"></c:set>
+     </c:when>
+     <c:otherwise>
+       <c:set var="planTime" value="${bean.planTime}"></c:set>
+     </c:otherwise>
+</c:choose>
 <!--startprint--> 
-<div style="width:210mm;background-color:#FFF;"> 
-	<c:forEach items="${userDataList}" var="map">
-		<div style="height:161mm">
+<div style="background-color:#FFF;">
+<c:if test="${not empty userDataList}"> 
+	<c:forEach items="${userDataList}" var="map" varStatus="status">
+		<c:if test="${(status.index+1)%2==1 }">
+		<div style="width:210mm;height:305mm" class="pageDiv">
+		</c:if>
+		<br>
 		<table  border="3" width="95%" cellspacing="0" style="margin:10px;">
 			<tr id="juzhong" height="100">
 			<td colspan="2">
@@ -38,7 +64,7 @@ text-align:left;
 			身份证号：  ${map.user.userName }<br/>
 			考试类别：  ${plan.courseName }<br/>
 			准考证号：  ${map.examUser.examNum }<br/>
-			考试时间：  ${plan.planTime}<br/>
+			考试时间：  ${planTime}<br/>
 			&nbsp;&nbsp;&nbsp;座位号：  ${map.examUser.seatNum }<br/>
 			
 			</td>
@@ -59,9 +85,19 @@ text-align:left;
 			</td>
 			</tr>
 		</table>
+		<br>
+		<br>
+		<c:if test="${(status.index+1)%2==0 }">
 		</div>
-		
-	</c:forEach>              
+		</c:if>
+	</c:forEach> 
+	<c:if test="${fn:length(userDataList)%2==1 }">
+		</div>
+	</c:if>
+</c:if>	
+<c:if test="${empty userDataList}">
+<h1>暂未授权考试人员</h1>
+</c:if>             
 </div>
 <!--endprint-->
 </div>
@@ -83,6 +119,21 @@ text-align:left;
     window.document.body.innerHTML = currentHtml
   }
   
+  //设置并打印
+  function setAndPrintSomething(){
+	  var pageWidth = $("#pageWidth").val();
+	  var paperHeight = $("#paperHeight").val();
+	  if(!pageWidth){
+		  pageWidth = 210 
+	  }
+	  if(!paperHeight){
+		  paperHeight = 305 
+	  }
+	  $(".pageDiv").width(pageWidth+'mm');
+	  $(".pageDiv").height(paperHeight+'mm');
+	  printSomething();
+	 
+  }
 </script>
 
 

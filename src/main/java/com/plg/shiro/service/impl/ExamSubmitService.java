@@ -306,6 +306,24 @@ public class ExamSubmitService implements IExamSubmitService {
 	        omExamSubmitMapper.updateByPrimaryKeySelective(bean);
         }
 	}
+	
+	@Override
+	public void deleteBatch(String ids) {
+		OmExamSubmitExample example = new OmExamSubmitExample();
+		OmExamSubmitExample.Criteria c = example.createCriteria();
+        c.andSubmitIdIn(Arrays.asList(ids.split(",")));
+        List<OmExamSubmit> list = omExamSubmitMapper.selectByExample(example);
+        for(OmExamSubmit bean:list){
+        	//获取答题记录
+        	OmExamAnswerExample exampleAnswer = new OmExamAnswerExample();
+    		OmExamAnswerExample.Criteria criteria1 = exampleAnswer.createCriteria();
+    		criteria1.andUserIdEqualTo(bean.getUserId());
+    		criteria1.andPlanIdEqualTo(bean.getPlanId());
+    		criteria1.andPaperIdEqualTo(bean.getPaperId());
+    		omExamAnswerMapper.deleteByExample(exampleAnswer);
+    		omExamSubmitMapper.deleteByPrimaryKey(bean.getSubmitId());
+        }
+	}
 
 	@Override
 	public List<OmExamSubmitVo> getList(HttpServletRequest request,String status) {
@@ -583,8 +601,5 @@ public class ExamSubmitService implements IExamSubmitService {
 		}
 		return null;
 	}
-	
-	
-
 	
 }

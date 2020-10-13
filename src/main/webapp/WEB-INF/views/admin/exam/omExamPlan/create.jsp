@@ -84,14 +84,23 @@
                 </select>
             </div>
         </div>
+        
+	    <c:choose>
+          <c:when test="${fn:length(bean.planTime) > 19}">
+              <c:set var="planTime" value="${fn:substring(bean.planTime, 0, 19)}"></c:set>
+          </c:when>
+          <c:otherwise>
+            <c:set var="planTime" value="${bean.planTime}"></c:set>
+          </c:otherwise>
+	    </c:choose>
         <div class="layui-inline">
             <label class="layui-form-label">考试时间：</label>
             <div class="layui-input-inline">
             	<c:if test="${fntype!='view' }">
-            		<input type="text" id="planTime" name="planTime" autocomplete="off" class="layui-input" value="${bean.planTime }">
+            		<input type="text" id="planTime" name="planTime" autocomplete="off" class="layui-input" value="${planTime }">
             	</c:if>
             	<c:if test="${fntype=='view' }">
-            		<input type="text" autocomplete="off" class="layui-input" value="${bean.planTime }">
+            		<input type="text" autocomplete="off" class="layui-input" value="${planTime }">
             	</c:if>
                 
             </div>

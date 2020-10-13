@@ -93,7 +93,7 @@ function createView(fntype,id){
 		 isreload = 0;
 	 }
 	 title += '考试安排信息';
-	 commonCreateView(title,url,isreload,'650','550');
+	 commonCreateView(title,url,isreload,'650','750');
 }
 
 //删除操作

@@ -126,9 +126,9 @@ public class ExamUserService implements IExamUserService {
 		}else {
 			list = ExcelUtils.readSheet(OmUser.class, mappingFields, 0, 1, file.getInputStream());
 		}
-		if(list.size()==0){
+		/*if(list.size()==0){
 			return AjaxObject.newError("上传文件内容为空");
-		}
+		}*/
 		return readExcel(request,list);
 	}
 	
@@ -206,9 +206,13 @@ public class ExamUserService implements IExamUserService {
 			message +="请核对数据后进行导入。";
 			return AjaxObject.newError(message);
 		}else{
+			//先删除以前授权的
+			OmExamUser delBean = new OmExamUser();
+			delBean.setPlanId(plan.getPlanId());
+			delBean.setPaperId(plan.getPaperId());
+			delBean.setExamUserType("1");
+			this.deleteExample(delBean);
 			if(addList.size()>0) {
-				//先删除以前授权的
-				this.deleteExample(addList.get(0));
 				//插入
 				for(OmExamUser examUser:addList) {
 					omExamUserMapper.insertSelective(examUser);

@@ -7,6 +7,7 @@ layui.use(['form','laydate'], function(){
 	  
 	  laydate.render({
 		  elem: '#planTime'
+		 ,position: 'fixed'		  
 	     ,type: 'datetime'		  
 		 ,format: 'yyyy-MM-dd HH:mm:ss'
 	  });

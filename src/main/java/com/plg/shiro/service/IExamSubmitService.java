@@ -75,4 +75,6 @@ public interface IExamSubmitService {
 	List<OmExamSubmit> getNopassList(String planId,String paperId,String status,int totalScore);
 
 	List<OmUser> getMakeupExamUserList(String planId);
+
+	void deleteBatch(String ids);
 }
