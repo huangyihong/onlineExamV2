@@ -1,6 +1,7 @@
 package com.plg.shiro.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,6 +36,9 @@ public interface IQuestionService {
 
 	List<OmQuestion> selectUserPaperQuestion(String paperId, String answerUserId);
 
-	List<OmUploadImg> selectQuestionImgByQuestionId(String questionId);
+	List<OmUploadImg> selectQuestionImgByQuestionId(List<String> questionList);
 	
+	long countQuestionImgByQuestionId(List<String> questionList);
+
+	Map<String, List<OmUploadImg>> getQuestionImgMap(List<OmQuestion> questionList);
 }

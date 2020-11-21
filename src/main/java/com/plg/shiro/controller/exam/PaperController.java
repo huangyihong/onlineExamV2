@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -215,13 +216,14 @@ public class PaperController {
   		List<OmQuestionVo> questionList6 = new ArrayList<OmQuestionVo>();
   		if("1".equals(bean.getAddMode())){//人工
   			List<OmQuestion> questionList = questionService.selectPaperQuestion(bean.getPaperId());
+  			Map<String,List<OmUploadImg>> imgMap = questionService.getQuestionImgMap(questionList);
   	  		for(OmQuestion questionBean:questionList){
   	  			String questionType = questionBean.getQuestionType();
   	  		    OmQuestionVo questionVo = new OmQuestionVo();
   		        BeanUtils.copyProperties(questionBean,questionVo);
   	  		    //获取问题图片
-  	  		    List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(questionBean.getQuestionId());
-  	  		    if(imgList.size()>0) {
+  	  		    List<OmUploadImg> imgList = imgMap.get(questionBean.getQuestionId());
+  	  		    if(imgList!=null&&imgList.size()>0) {	
   	  		    	questionVo.setImgList(imgList);
   	  		    }
   	  			switch (questionType) {
@@ -249,14 +251,15 @@ public class PaperController {
   			List<OmPaperDetail> detailList = service.findPaperDeatilByPaperId(bean.getPaperId()); 
   			for(OmPaperDetail detailBean:detailList){
   				List<OmQuestion> list = questionService.selectAuto(detailBean.getQuestionType(),detailBean.getCourseId(),detailBean.getQuestionCount());
+  				Map<String,List<OmUploadImg>> imgMap = questionService.getQuestionImgMap(list);
   				String questionType = detailBean.getQuestionType();
   				for(OmQuestion questionBean:list){
   					questionBean.setQuestionScore(detailBean.getQuestionScore());
   					OmQuestionVo questionVo = new OmQuestionVo();
   	  		        BeanUtils.copyProperties(questionBean,questionVo);
   	  	  		    //获取问题图片
-  	  	  		    List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(questionBean.getQuestionId());
-  	  	  		    if(imgList.size()>0) {
+	  	  		    List<OmUploadImg> imgList = imgMap.get(questionBean.getQuestionId());
+	  	  		    if(imgList!=null&&imgList.size()>0) {
   	  	  		    	questionVo.setImgList(imgList);
   	  	  		    }
   		  			switch (questionType) {
@@ -381,6 +384,7 @@ public class PaperController {
 				questionList =service.insertPaperQuestionAuto(bean.getPaperId(),answerUserId);
 			}
 		}
+		Map<String,List<OmUploadImg>> imgMap = questionService.getQuestionImgMap(questionList);
 		for(OmQuestion questionBean:questionList){
   			String questionType = questionBean.getQuestionType();
   		    OmQuestionVo questionVo = new OmQuestionVo();
@@ -392,8 +396,8 @@ public class PaperController {
   		    	questionVo.setMarkText(answerMap.get(questionBean.getQuestionId()).getMarkText());
   		    }
   		    //获取问题图片
-  		    List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(questionBean.getQuestionId());
-  		    if(imgList.size()>0) {
+  		    List<OmUploadImg> imgList = imgMap.get(questionBean.getQuestionId());
+  		    if(imgList!=null&&imgList.size()>0) {
   		    	questionVo.setImgList(imgList);
   		    }
   			switch (questionType) {
@@ -758,6 +762,7 @@ public class PaperController {
   		List<OmQuestion> questionList5 = new ArrayList<OmQuestion>();
   		List<OmQuestion> questionList6 = new ArrayList<OmQuestion>();
 		List<OmQuestion> questionList = questionService.selectPaperQuestion(bean.getPaperId());
+		Map<String,List<OmUploadImg>> imgMap = questionService.getQuestionImgMap(questionList);
   		for(OmQuestion questionBean:questionList){
   			String questionType = questionBean.getQuestionType();
   			switch (questionType) {
@@ -819,7 +824,7 @@ public class PaperController {
 				}
 				map.put("question"+questionTotalNum, questionName);
 				//获取图片
-				List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(question.getQuestionId());
+				List<OmUploadImg> imgList = imgMap.get(question.getQuestionId());
 				for(int k=0;k<imgList.size();k++) {
 					OmUploadImg imgBean = imgList.get(k);
 					Map<String,Object> pic = new HashMap<String, Object>();
@@ -873,7 +878,7 @@ public class PaperController {
 				}
 				map.put("question"+questionTotalNum, questionName);
 				//获取图片
-				List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(question.getQuestionId());
+				List<OmUploadImg> imgList = imgMap.get(question.getQuestionId());
 				for(int k=0;k<imgList.size();k++) {
 					OmUploadImg imgBean = imgList.get(k);
 					Map<String,Object> pic = new HashMap<String, Object>();
@@ -903,7 +908,7 @@ public class PaperController {
 				questionName +=(i+1)+"."+question.getQuestionName()+"("+question.getQuestionScore()+"分)\n ";
 				map.put("question"+questionTotalNum, questionName);
 				//获取图片
-				List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(question.getQuestionId());
+				List<OmUploadImg> imgList = imgMap.get(question.getQuestionId());
 				for(int k=0;k<imgList.size();k++) {
 					OmUploadImg imgBean = imgList.get(k);
 					Map<String,Object> pic = new HashMap<String, Object>();
@@ -933,7 +938,7 @@ public class PaperController {
 				questionName +=(i+1)+"."+question.getQuestionName()+"("+question.getQuestionScore()+"分)\n ";
 				map.put("question"+questionTotalNum, questionName);
 				//获取图片
-				List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(question.getQuestionId());
+				List<OmUploadImg> imgList = imgMap.get(question.getQuestionId());
 				for(int k=0;k<imgList.size();k++) {
 					OmUploadImg imgBean = imgList.get(k);
 					Map<String,Object> pic = new HashMap<String, Object>();
@@ -963,7 +968,7 @@ public class PaperController {
 				questionName +=(i+1)+"."+question.getQuestionName()+"("+question.getQuestionScore()+"分)\n ";
 				map.put("question"+questionTotalNum, questionName);
 				//获取图片
-				List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(question.getQuestionId());
+				List<OmUploadImg> imgList = imgMap.get(question.getQuestionId());
 				for(int k=0;k<imgList.size();k++) {
 					OmUploadImg imgBean = imgList.get(k);
 					Map<String,Object> pic = new HashMap<String, Object>();
@@ -1017,7 +1022,7 @@ public class PaperController {
 				}
 				map.put("question"+questionTotalNum, questionName);
 				//获取图片
-				List<OmUploadImg> imgList = questionService.selectQuestionImgByQuestionId(question.getQuestionId());
+				List<OmUploadImg> imgList = imgMap.get(question.getQuestionId());
 				for(int k=0;k<imgList.size();k++) {
 					OmUploadImg imgBean = imgList.get(k);
 					Map<String,Object> pic = new HashMap<String, Object>();

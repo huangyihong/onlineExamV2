@@ -1,7 +1,11 @@
 package com.plg.shiro.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.plg.shiro.dao.OmQuestionExtMapper;
-import com.plg.shiro.dao.OmUploadImgMapper;
 import com.plg.shiro.dao.OmQuestionMapper;
+import com.plg.shiro.dao.OmUploadImgMapper;
 import com.plg.shiro.entity.OmPaperQuestion;
 import com.plg.shiro.entity.OmQuestion;
 import com.plg.shiro.entity.OmQuestionExample;
@@ -181,12 +185,37 @@ public class QuestionService implements IQuestionService {
 	}
 
 	@Override
-	public List<OmUploadImg> selectQuestionImgByQuestionId(String questionId) {
+	public List<OmUploadImg> selectQuestionImgByQuestionId(List<String> questionList) {
 		OmUploadImgExample example = new OmUploadImgExample();
 		OmUploadImgExample.Criteria criteria = example.createCriteria();
-		criteria.andRelationIdEqualTo(questionId);
-		example.setOrderByClause("IMG_ORDER");
+		//criteria.andRelationIdEqualTo(questionId);
+		criteria.andRelationIdIn(questionList);
+		example.setOrderByClause("RELATION_ID,IMG_ORDER");
 		return omQuestionImgMapper.selectByExample(example);
+	}
+	
+	@Override
+	public long countQuestionImgByQuestionId(List<String> questionList) {
+		OmUploadImgExample example = new OmUploadImgExample();
+		OmUploadImgExample.Criteria criteria = example.createCriteria();
+		//criteria.andRelationIdEqualTo(questionId);
+		criteria.andRelationIdIn(questionList);
+		return omQuestionImgMapper.countByExample(example);
+	}
+
+	@Override
+	public Map<String, List<OmUploadImg>> getQuestionImgMap(List<OmQuestion> questionList) {
+		Map<String,List<OmUploadImg>> imgMap = new HashMap<String,List<OmUploadImg>>();
+		if(questionList.size()==0) {
+			return imgMap;
+		}
+		List<String> questionIdList = questionList.stream().map(OmQuestion::getQuestionId).collect(Collectors.toList());
+		List<OmUploadImg> imgAllList = this.selectQuestionImgByQuestionId(questionIdList);
+		for(OmUploadImg img:imgAllList) {
+			List<OmUploadImg> imgList = imgMap.computeIfAbsent(img.getRelationId(), (key) -> new ArrayList<>());
+			imgList.add(img);
+		}
+		return imgMap;
 	}
 
 }

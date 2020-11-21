@@ -248,8 +248,8 @@ public class ExamSubmitService implements IExamSubmitService {
 		criteria1.andPlanIdEqualTo(bean.getPlanId());
 		criteria1.andPaperIdEqualTo(bean.getPaperId());
 		criteria1.andAnswerResultIsNotNull();
-		List<OmExamAnswer> listAnswer = omExamAnswerMapper.selectByExample(exampleAnswer);
-		bean.setUserAnswerCount(listAnswer.size());
+		long count = omExamAnswerMapper.countByExample(exampleAnswer);
+		bean.setUserAnswerCount((int)count);
 	}
 
 	@Override
@@ -278,7 +278,7 @@ public class ExamSubmitService implements IExamSubmitService {
 		example.setLimitStart(page.limitStart());
 		page.setTotalCount(omExamSubmitVoMapper.countByExample(example));
 		if("3,4".equals(status)){//发布成绩页面
-			example.setOrderByClause("status,START_TIME desc");
+			example.setOrderByClause("total_Score desc,START_TIME desc");
 		}
 		if("1,2".equals(status)){//监控页面
 			example.setOrderByClause("user_answer_count desc,START_TIME desc");

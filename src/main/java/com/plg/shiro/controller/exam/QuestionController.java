@@ -1,22 +1,16 @@
 package com.plg.shiro.controller.exam;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +33,6 @@ import com.plg.shiro.service.IQuestionService;
 import com.plg.shiro.util.DateUtil;
 import com.plg.shiro.util.DownloadUtils;
 import com.plg.shiro.util.ExcelUtils;
-import com.plg.shiro.util.FileUtils;
 import com.plg.shiro.util.UUIDUtil;
 import com.plg.shiro.util.dwz.AjaxObject;
 import com.plg.shiro.util.dwz.LayuiPage;
@@ -99,7 +92,7 @@ public class QuestionController {
 			if(bean!=null){
 				questionType = bean.getQuestionType();
 				//获取图片
-				List<OmUploadImg> imgList = service.selectQuestionImgByQuestionId(questionId);
+				List<OmUploadImg> imgList = service.selectQuestionImgByQuestionId(Arrays.asList(questionId.split(",")));
 				request.setAttribute("imgList", imgList);
 			}
     	}else{

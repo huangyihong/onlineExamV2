@@ -57,7 +57,7 @@ function save(data){
 function setQuestionNum(id_arr){
 	var i=1;
 	var questionId_arr=[];
-	while(i<6){
+	while(i<=6){
 		var $questionId = $("#questionType"+i).find("[name='questionIds']")
 	    var $questionName = $("#questionType"+i).find("[name='questionNames']")
 	    var questionIds = $questionId.val().length > 0 ? $questionId.val().split('|') : [];
