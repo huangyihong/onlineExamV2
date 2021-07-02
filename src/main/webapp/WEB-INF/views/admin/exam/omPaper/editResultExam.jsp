@@ -251,7 +251,8 @@
 		            <c:if test="${not empty question.markScore}">
 		            	<c:set var="questionScore" value="${question.markScore}"/>
 		            </c:if>
-		            <input type="hidden" name="questionScore" value="${questionScore }"/>
+		            <input type="hidden" name="questionScore" value="${question.questionScore }"/>
+		            <input type="hidden" name="answerScore" value="${questionScore }"/>
 		            <input type="hidden" name="answerResult" value="${question.answerResult }"/>
 		            <input type="hidden" name="rightResult" value="${question.rightResult }"/>
 		            <input type="hidden" name="questionType" value="${question.questionType }"/>
