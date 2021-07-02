@@ -23,7 +23,7 @@ $(function () {
 		var editTotal = 0;
 		$("input:text[name='editResult']").each(function(i, o){
 			var val = $(o).val().trim();
-			if(val){
+			if(val&&val!=''){
 				var questionScore = parseInt($(o).closest('.layui-form-item').find("[name='questionScore']").val());//题目分数
 				var answerScore = parseInt($(o).closest('.layui-form-item').find("[name='answerScore']").val());//原来得分
 				var questionType =$(o).closest('.layui-form-item').find("[name='questionType']").val();//题目类型
